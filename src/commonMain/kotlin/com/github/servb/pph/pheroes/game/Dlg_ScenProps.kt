@@ -8,6 +8,7 @@ import com.github.servb.pph.pheroes.common.common.DifficultyLevel
 import com.github.servb.pph.pheroes.common.common.PlayerId
 import com.github.servb.pph.pheroes.common.common.PlayerType
 import com.github.servb.pph.pheroes.common.common.PlayerTypeMask
+import com.github.servb.pph.util.asPoint
 import com.github.servb.pph.util.helpertype.and
 import com.github.servb.pph.util.helpertype.getByValue
 import com.github.servb.pph.util.helpertype.or
@@ -67,6 +68,84 @@ private class iPlayerBtn : iButton {
             m_pt = PlayerType.HUMAN
         }
         return m_pt
+    }
+}
+
+
+
+private class iNetGameTypeBtn : iButton {
+
+    private var m_gameType: NetGameType
+
+    constructor(
+        pViewMgr: iViewMgr,
+        pCmdHandler: IViewCmdHandler,
+        rect: IRectangleInt,
+        gameType: NetGameType,
+        uid: UInt,
+        state: Int = ViewState.Visible or ViewState.Enabled
+    ) : super(pViewMgr, pCmdHandler, rect, uid, state) {
+        m_gameType = gameType
+    }
+
+    override fun OnCompose() {
+        val rc = GetScrRect()
+        gApp.Surface().FrameRect(rc, cColor.Black.pixel)
+        rc.rect.inflate(-1)
+        gApp.Surface().FillRect(rc,
+            when(m_gameType) {
+                NetGameType.Local -> cColor.Red.pixel
+                NetGameType.Client -> cColor.Green.pixel
+                 NetGameType.Server -> cColor.Blue.pixel
+             }, 96u)
+        ButtonFrame(gApp.Surface(), rc, m_state)
+
+        val fc = iTextComposer.FontConfig(dlgfc_plain)
+        gTextComposer.TextOut(
+            fc,
+            gApp.Surface(),
+            rc.asPoint(),
+            when(m_gameType) {
+                NetGameType.Local -> "Local"
+                NetGameType.Client -> "Client"
+                NetGameType.Server -> "Server"
+            },
+            rc,
+            Alignment.AlignCenter,
+            if ((m_state and iButton.State.Pressed.v) != 0) PointInt(1, 1) else PointInt()
+        )
+
+//        val sid = if (m_pt == PlayerType.HUMAN) {
+//            GfxId.PDGG_ICN_PLT_HUMAN
+//        } else {
+//            GfxId.PDGG_ICN_PLT_AI
+//        }.v
+//        val op = IPointInt(
+//            rc.x + (rc.width / 2) - (gGfxMgr.Dimension(sid).width / 2),
+//            rc.y + (rc.height / 2) - (gGfxMgr.Dimension(sid).height / 2)
+//        )
+//        gGfxMgr.Blit(sid, gApp.Surface(), op)
+        /*  // commented in sources
+		if (m_pt == PT_HUMAN) gTextComposer.TextOut(dlgfc_stopic, gApp.Surface(), iPoint(), _T("Human"), rc, AlignCenter);
+		else if (m_pt == PT_COMPUTER) gTextComposer.TextOut(dlgfc_splain, gApp.Surface(), iPoint(), _T("CPU"), rc, AlignCenter);
+		*/
+
+        if (!IsEnabled()) {
+            gApp.Surface().FillRect(rc, cColor.Gray64.pixel, 128u)
+        }
+    }
+
+    fun GetGameType(): NetGameType = m_gameType
+
+    fun ToggleGameType(): NetGameType {
+        if (m_gameType == NetGameType.Local) {
+            m_gameType = NetGameType.Client
+        } else if (m_gameType == NetGameType.Client) {
+            m_gameType = NetGameType.Server
+        } else {
+            m_gameType = NetGameType.Local
+        }
+        return m_gameType
     }
 }
 
@@ -153,9 +232,12 @@ class iScenPropsDlg : iBaseGameDlg {
 
     private lateinit var m_pDfcLabel: iPHLabel
     private lateinit var m_pOkBtn: iTextButton
+
     private val m_btnPlayers: MutableList<iPlayerBtn> = mutableListOf()
     private val m_btnNations: MutableList<iNationBtn> = mutableListOf()
     private lateinit var m_difLevel: iDifLvlTab
+    private lateinit var m_btnNetType: iNetGameTypeBtn
+
     private val m_scProps: iMapInfo
     private val m_bReadOnly: Boolean
 
@@ -243,6 +325,16 @@ class iScenPropsDlg : iBaseGameDlg {
             sx += 37
         }
 
+        m_btnNetType = iNetGameTypeBtn(
+            m_pMgr,
+            this,
+            IRectangleInt(sx, sy + 25, 34, 34),
+            m_scProps.m_netGameType,
+            337.toUInt(), // uid
+            (ViewState.Visible or ViewState.Enabled)
+        )
+        AddChild(m_btnNetType)
+
         // Buttons
         val npos = clRect.x + (clRect.width / 2 - 80)
         m_pOkBtn = iTextButton(
@@ -283,8 +375,11 @@ class iScenPropsDlg : iBaseGameDlg {
     override fun ClientSize(): SizeInt = SizeInt(270, 150 + DEF_BTN_HEIGHT)
 
     private fun UpdateControls() {
-        val bHasHuman = m_scProps.m_Players.indices.any { m_btnPlayers[it].PlayerType() == PlayerType.HUMAN }
-        m_pOkBtn.SetEnabled(bHasHuman)
+        val humanCount = m_scProps.m_Players.indices.count { m_btnPlayers[it].PlayerType() == PlayerType.HUMAN }
+        m_pOkBtn.SetEnabled(humanCount != 0 && (
+                (m_btnNetType.GetGameType() == NetGameType.Local) || humanCount > 1)
+        )
+
     }
 
     override suspend fun iCMDH_ControlCommand(pView: iView, cmd: CTRL_CMD_ID, param: Int) {
@@ -298,6 +393,8 @@ class iScenPropsDlg : iBaseGameDlg {
                     m_scProps.m_Players[xx].m_Type = m_btnPlayers[xx].PlayerType()
                     m_scProps.m_Players[xx].m_Nation = m_btnNations[xx].PlayerNation()
                 }
+                // Setup net
+                m_scProps.m_netGameType = m_btnNetType.GetGameType()
                 EndDialog(uid)
             }
             uid == 301 -> {
@@ -314,6 +411,10 @@ class iScenPropsDlg : iBaseGameDlg {
                 }
                 val tdlg = iTextDlg(m_pMgr, title, desc, PlayerId.NEUTRAL, dlgfc_topic, dlgfc_splain)
                 tdlg.DoModal()
+            }
+            uid == 337.toInt() -> {
+                m_btnNetType.ToggleGameType()
+                UpdateControls()
             }
             (uid in 200 until (200 + m_scProps.m_Players.size)) && cmd == CTRL_CMD_ID.BUTTON_CLICK -> {
                 val value = uid - 200

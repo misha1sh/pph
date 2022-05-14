@@ -675,8 +675,10 @@ class iBattleView : iChildGameView {
             // todo
         } else if (m_battleMode == BattleNavMode.SHOOT) {
             if (m_pShootTrack != null) {
+                //shot
                 m_pBattle!!.Engine().Shot(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
-                BeginAni()
+//                BeginAni()
+                // m_pBattle!!.Engine().Controller().ShotAction(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
                 m_pShootTrack = null
             }
         } else {
@@ -751,6 +753,10 @@ class iBattleView : iChildGameView {
     override suspend fun Process(t: Double): Boolean {
         // actions
         if (m_pBattle!!.Engine().ActionCount() != 0) {
+            if (!m_bAni) {
+                BeginAni()
+            }
+
             m_actTimer += t
             while (m_pBattle!!.Engine().ActionCount() != 0 && m_actTimer >= m_pBattle!!.Engine()
                     .CurAction()!!.m_delay
@@ -1032,6 +1038,7 @@ class iBattleView : iChildGameView {
             val bAiPlayer = pid == PlayerId.NEUTRAL // ||  // todo
 //                    gGame.Map().FindPlayer(pid).PlayerType() == PlayerType.COMPUTER  // todo
             if (bAiPlayer || IsAutobattle()) {
+                m_bHumanTurn = false;
                 TODO()
             } else {
                 m_bHumanTurn = true

@@ -769,6 +769,8 @@ class iBattleEngine {
     private val m_aArmy: iBattleArmy
     private val m_dArmy: iBattleArmy
 
+    private val m_controller: BattleController
+
     //    private val m_obsMap: iBattleMap  // todo
     private val m_pWrapper: iBattleWrapper
 
@@ -785,8 +787,13 @@ class iBattleEngine {
         m_pCurAct = null
         m_bAutoBattle = false
 //        m_obsMap.FillMem()  // todo
+
+        m_controller = BattleController(this, gGame.getLocalNetManager())
     }
 
+    fun Controller() : BattleController = m_controller
+
+    // battle initialization
     fun BeginBattle(bi: iBattleInfo) {
         m_bi = bi
 

@@ -17,6 +17,12 @@ import com.soywiz.korma.geom.IPointInt
 import com.soywiz.korma.geom.ISizeInt
 import kotlin.properties.Delegates
 
+enum class NetGameType {
+    Local,
+    Client,
+    Server
+}
+
 class iMapInfo {
 
     enum class GameMode(override val v: Int) : UniqueValueEnum {
@@ -24,8 +30,7 @@ class iMapInfo {
         SPLAYER(1),
         HOTSEAT(2),
     }
-
-    class iPlayerInfo {
+        class iPlayerInfo {
 
         lateinit var m_Minerals: MineralSetC
         var m_Id: PlayerId
@@ -45,6 +50,10 @@ class iMapInfo {
             m_Nation = ntype
         }
     }
+
+
+
+    var m_netGameType = NetGameType.Local
 
     var m_bNewGame: Boolean by Delegates.notNull()
     var m_saveTime: UInt by Delegates.notNull()
