@@ -13,7 +13,7 @@ class NationTypes {
     var UNDEADS: NationType
 
 
-    var array: Array<NationType?>
+    private var array: Array<NationType?>
 
     var nationTypeByName: HashMap<String, NationType> = HashMap()
 

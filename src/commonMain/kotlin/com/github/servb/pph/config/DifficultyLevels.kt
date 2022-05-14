@@ -9,7 +9,7 @@ class DifficultyLevels {
     var EXPERT: DifficultyLevel
     var IMPOSSIBLE: DifficultyLevel
 
-    var array: Array<DifficultyLevel?>
+    private var array: Array<DifficultyLevel?>
 
     constructor(yaml: LinkedHashMap<String, Any?>){
 

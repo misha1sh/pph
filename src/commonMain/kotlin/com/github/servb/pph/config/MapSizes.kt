@@ -7,7 +7,7 @@ class MapSizes {
     var LARGE: MapSize
     var EXTRA_LARGE: MapSize
 
-    var array: Array<MapSize?>
+    private var array: Array<MapSize?>
 
     constructor(yaml: LinkedHashMap<String, Any?>){
         SMAL = MapSize(yaml["smal"] as LinkedHashMap<String, Any?>)

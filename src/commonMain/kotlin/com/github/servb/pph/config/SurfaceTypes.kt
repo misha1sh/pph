@@ -15,8 +15,7 @@ class SurfaceTypes {
     var PAVEMENT: SurfaceType
     var NEW_WASTELAND: SurfaceType
 
-    var array: Array<SurfaceType?>
-
+    private var array: Array<SurfaceType?>
 
     constructor(yaml: LinkedHashMap<String, Any?>){
         WATER = SurfaceType(yaml["water"] as LinkedHashMap<String, Any?>)
