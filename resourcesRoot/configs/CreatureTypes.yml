@@ -1,0 +1,353 @@
+UNKNOWN:
+    v: 0
+PEASANT:
+    v: 1
+    descriptor:
+        level: 1
+        natiuon: HIGHMEN
+        atack: 1
+        defence: 2
+        speed: 4
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 2
+        damage_min: 1
+        damage_max: 1
+        cost:
+            gold: 25
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 22
+        pidx: 15
+        perks: NONE
+ARCHER:
+    v: 2
+    descriptor:
+        level: 2
+        natiuon: HIGHMEN
+        atack: 5
+        defence: 4
+        speed: 5
+        size: 1
+        transType: WALK
+        shots: 24
+        hits: 10
+        damage_min: 2
+        damage_max: 3
+        cost:
+            gold: 200
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 10
+        pidx: 140
+        perks: DOUBLESHOT
+PIKEMAN:
+    v: 3
+    descriptor:
+        level: 3
+        natiuon: HIGHMEN
+        atack: 5
+        defence: 9
+        speed: 5
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 25
+        damage_min: 3
+        damage_max: 4
+        cost:
+            gold: 250
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 7
+        pidx: 250
+        perks: NONE
+MONK:
+    v: 4
+    descriptor:
+        level: 4
+        natiuon: HIGHMEN
+        atack: 7
+        defence: 9
+        speed: 7
+        size: 1
+        transType: WALK
+        shots: 15
+        hits: 30
+        damage_min: 4
+        damage_max: 6
+        cost:
+            gold: 325
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 6
+        pidx: 409
+        perks: NOMELEEPENALTY
+CAVALRY:
+    v: 5
+     descriptor:
+        level: 5
+        natiuon: HIGHMEN
+        atack: 10
+        defence: 9
+        speed: 10
+        size: 2
+        transType: WALK
+        shots: 0
+        hits: 40
+        damage_min: 5
+        damage_max: 10
+        cost:
+            gold: 450
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 5
+        pidx: 689
+        perks: JOUSTING
+PALADIN:
+    v: 6
+    descriptor:
+        level: 6
+        natiuon: HIGHMEN
+        atack: 11
+        defence: 13
+        speed: 10
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 80
+        damage_min: 10
+        damage_max: 20
+        cost:
+            gold: 1200
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 1764
+        perks: DOUBLEATTACK
+GOBLIN:
+    v: 7
+    descriptor:
+        level: 1
+        natiuon: BARBARIANS
+        atack: 4
+        defence: 1
+        speed: 5
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 3
+        damage_min: 1
+        damage_max: 2
+        cost:
+            gold: 40
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 20
+        pidx: 33
+        perks: NONE
+ORC:
+    v: 8
+    descriptor:
+        level: 2
+        natiuon: BARBARIANS
+        atack: 3
+        defence: 4
+        speed: 4
+        size: 1
+        transType: WALK
+        shots: 5
+        hits: 15
+        damage_min: 3
+        damage_max: 4
+        cost:
+            gold: 185
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 10
+        pidx: 155
+        perks: NONE
+WARG_RIDER:
+    v: 9
+    descriptor:
+        level: 3
+        natiuon: BARBARIANS
+        atack: 6
+        defence: 4
+        speed: 9
+        size: 2
+        transType: WALK
+        shots: 0
+        hits: 20
+        damage_min: 3
+        damage_max: 5
+        cost:
+            gold: 250
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 8
+        pidx: 262
+        perks: DOUBLEATTACK
+OGRE:
+    v: 10
+    descriptor:
+        level: 4
+        natiuon: BARBARIANS
+        atack: 9
+        defence: 7
+        speed: 5
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 55
+        damage_min: 5
+        damage_max: 7
+        cost:
+            gold: 500
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 6
+        pidx: 627
+        perks: NONE
+TROLL:
+    v: 11
+    descriptor:
+        level: 5
+        natiuon: BARBARIANS
+        atack: 10
+        defence: 6
+        speed: 8
+        size: 1
+        transType: WALK
+        shots: 15
+        hits: 40
+        damage_min: 7
+        damage_max: 12
+        cost:
+            gold: 700
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 5
+        pidx: 807
+        perks: REGENERATES
+CYCLOP:
+    v: 12
+    descriptor:
+        level: 6
+        natiuon: BARBARIANS
+        atack: 12
+        defence: 9
+        speed: 9
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 100
+        damage_min: 12
+        damage_max: 24
+        cost:
+            gold: 1500
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 2036
+        perks: TWOHEXATTACK
+YOUNG_MAGE:
+    v: 13
+    descriptor:
+        level: 1
+        natiuon: WIZARDS
+        atack: 2
+        defence: 1
+        speed: 3
+        size: 1
+        transType: WALK
+        shots: 5
+        hits: 4
+        damage_min: 1
+        damage_max: 3
+        cost:
+            gold: 60
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 18
+        pidx: 41
+        perks: NONE
+WHITE_WOLF:
+    v: 14
+    descriptor:
+        level: 2
+        natiuon: WIZARDS
+        atack: 5
+        defence: 4
+        speed: 8
+        size: 2
+        transType: WALK
+        shots: 5
+        hits: 4
+        damage_min: 1
+        damage_max: 3
+        cost:
+            gold: 60
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 18
+        pidx: 41
+        perks: NONE
+        

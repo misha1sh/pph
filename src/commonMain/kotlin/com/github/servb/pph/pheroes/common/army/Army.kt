@@ -1,5 +1,6 @@
 package com.github.servb.pph.pheroes.common.army
 
+import com.github.servb.pph.config.Data
 import com.github.servb.pph.pheroes.common.common.NationType
 import com.github.servb.pph.pheroes.common.creature.CreatureType
 

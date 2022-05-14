@@ -5,6 +5,7 @@ import com.github.servb.pph.gxlib.RGB16
 import com.github.servb.pph.util.helpertype.CountValueEnum
 import com.github.servb.pph.util.helpertype.UniqueValueEnum
 
+/*
 enum class SurfaceType(
     override val v: Int,
     val mask: Int = -42,
@@ -25,3 +26,4 @@ enum class SurfaceType(
     NEW_WASTELAND(11, 1 shl 11, 9, RGB16(192, 192, 160)),
     COUNT(12);
 }
+*/

@@ -18,11 +18,12 @@ class iHero {
     fun Deinit(bResetArmy: Boolean): Unit = TODO()
 //    fun Init()  // todo
 
+    // army
     fun army(): Army = Army().apply {
         // todo: write actual implementation
         addGroup(CreatureType.YOUNG_MAGE, 1)
-//        addGroup(CreatureType.ARCHER, 200)
-//        addGroup(CreatureType.MONK, 100)
+        addGroup(CreatureType.ARCHER, 200)
+        addGroup(CreatureType.MONK, 100)
 //        addGroup(CreatureType.ORC, 200)
 //        addGroup(CreatureType.TROLL, 50)
 //        addGroup(CreatureType.YOUNG_MAGE, 300)

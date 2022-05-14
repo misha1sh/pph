@@ -1,6 +1,7 @@
 package com.github.servb.pph.pheroes.game
 
-import com.github.servb.pph.pheroes.common.common.SurfaceType
+import com.github.servb.pph.config.Data
+import com.github.servb.pph.config.SurfaceType
 import com.soywiz.korma.geom.IPointInt
 
 class iInteractBattle : iBattleWrapper {
@@ -20,7 +21,7 @@ class iInteractBattle : iBattleWrapper {
 //        val dpos = m_engine.GetBattleInfo().Defender().Pos()
 //        iCell c = gGame.Map().GetAt(dpos.x,dpos.y);
 //	      sint32 upSurf = iMAX(iMAX(iMAX(c.SurfNode(0),c.SurfNode(1)),c.SurfNode(2)),c.SurfNode(3));
-        m_surfType = SurfaceType.GRASS
+        m_surfType = Data.surfaceTypes!!.GRASS
         m_pBattleView!!.BeginBattle(this, m_surfType)
     }
 

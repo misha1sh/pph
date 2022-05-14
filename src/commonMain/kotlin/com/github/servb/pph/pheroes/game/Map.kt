@@ -1,5 +1,8 @@
 package com.github.servb.pph.pheroes.game
 
+import com.github.servb.pph.config.Data
+import com.github.servb.pph.config.DifficultyLevel
+import com.github.servb.pph.config.MapSize
 import com.github.servb.pph.gxlib.ReadS8
 import com.github.servb.pph.gxlib.ReadU16
 import com.github.servb.pph.gxlib.ReadU32
@@ -79,7 +82,7 @@ class iMapInfo {
         m_rseed = pFile.ReadU32()
 
         val mapSiz = pFile.ReadU8()
-        m_Size = getByValue(mapSiz.toInt())
+        m_Size = Data.mapSizes!![mapSiz.toInt()]!!
 
         m_Name = DeserializeString(pFile)
         m_Description = DeserializeString(pFile)
@@ -93,7 +96,7 @@ class iMapInfo {
         m_gameMode = getByValue(gameMode.toInt())
 
         val gameDifLvl = pFile.ReadS8()  // Difficulty level (DFC_UNDEFINED for new game)
-        m_Difficulty = getByValue(gameDifLvl.toInt())
+        m_Difficulty = Data.difficultyLevels!![gameDifLvl.toInt()]!!
 
         m_Players = emptyList()  // todo
         m_curPlayerId = PlayerId.NEUTRAL  // todo
@@ -103,14 +106,14 @@ class iMapInfo {
     }
 
     suspend fun ReadMapInfoHmm(fileBuff: AsyncInputStream): Boolean {
-        m_Difficulty = DifficultyLevel.UNDEFINED
+        m_Difficulty = Data.difficultyLevels!!.UNDEFINED
         m_gameMode = GameMode.UNDEFINED
         m_curDay = 1u
         m_curPlayerId = PlayerId.NEUTRAL
 
         val fileVersion = fileBuff.ReadU32()
         val mapSize = fileBuff.ReadU8()
-        m_Size = getByValue(mapSize.toInt())
+        m_Size = Data.mapSizes!![mapSize.toInt()]!!
 
         if (fileVersion > 0x18u) {
             logger.warn { "no support for multilanguage HMM files yet..." }  // todo

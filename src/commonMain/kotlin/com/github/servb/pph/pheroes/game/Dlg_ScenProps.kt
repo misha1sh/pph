@@ -1,10 +1,11 @@
 package com.github.servb.pph.pheroes.game
 
+import com.github.servb.pph.config.Data
+import com.github.servb.pph.config.DifficultyLevel
 import com.github.servb.pph.gxlib.*
 import com.github.servb.pph.pheroes.common.GfxId
 import com.github.servb.pph.pheroes.common.TextResId
 import com.github.servb.pph.pheroes.common.castle.CastleType
-import com.github.servb.pph.pheroes.common.common.DifficultyLevel
 import com.github.servb.pph.pheroes.common.common.PlayerId
 import com.github.servb.pph.pheroes.common.common.PlayerType
 import com.github.servb.pph.pheroes.common.common.PlayerTypeMask
@@ -130,7 +131,7 @@ private class iDifLvlTab : iTabbedSwitch {
         pViewMgr,
         pCmdHandler,
         rect,
-        DifficultyLevel.COUNT.v,
+        Data.difficultyLevels!!.count(),
         uid,
         state
     )
@@ -199,8 +200,8 @@ class iScenPropsDlg : iBaseGameDlg {
             if (m_bReadOnly) ViewState.Visible.v else (ViewState.Visible or ViewState.Enabled)
         )
         AddChild(m_difLevel)
-        if (m_scProps.m_Difficulty == DifficultyLevel.UNDEFINED) {
-            m_scProps.m_Difficulty = DifficultyLevel.NORMAL
+        if (m_scProps.m_Difficulty == Data.difficultyLevels!!.UNDEFINED) {
+            m_scProps.m_Difficulty = Data.difficultyLevels!!.NORMAL
         }
         m_difLevel.SetCurrentTab(m_scProps.m_Difficulty.v)
         m_pDfcLabel.SetText(GetDfcString(m_scProps.m_Difficulty))
@@ -292,7 +293,7 @@ class iScenPropsDlg : iBaseGameDlg {
         when {
             (uid == DLG_RETCODE.OK.v || uid == DLG_RETCODE.CANCEL.v) && cmd == CTRL_CMD_ID.BUTTON_CLICK -> {
                 // Setup difficulty
-                m_scProps.m_Difficulty = getByValue(m_difLevel.GetCurrentTab())
+                m_scProps.m_Difficulty = Data.difficultyLevels!![m_difLevel.GetCurrentTab()]!!
                 // Setup players
                 m_scProps.m_Players.indices.forEach { xx ->
                     m_scProps.m_Players[xx].m_Type = m_btnPlayers[xx].PlayerType()
@@ -301,7 +302,7 @@ class iScenPropsDlg : iBaseGameDlg {
                 EndDialog(uid)
             }
             uid == 301 -> {
-                m_pDfcLabel.SetText(GetDfcString(getByValue(m_difLevel.GetCurrentTab())))
+                m_pDfcLabel.SetText(GetDfcString(Data.difficultyLevels!![m_difLevel.GetCurrentTab()]!!))
             }
             uid == 401 -> {
                 var title = m_scProps.m_Name
