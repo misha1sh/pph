@@ -662,43 +662,45 @@ class iBattleView : iChildGameView {
             return
         }
 
-        if (SpellTracking()) {
-            EndSpellTrack(m_trackCell)
-            Invalidate()
-        } else if (m_pCreatInfoPopup != null || m_battleMode == BattleNavMode.INFO || m_bForceInfo) {
-            m_pCreatInfoPopup?.let {
-                RemoveChild(it)
-                it.HidePopup()
-                m_pCreatInfoPopup = null
-            }
-        } else if (m_battleMode == BattleNavMode.MELEE /*&& m_pMeleeTrack*/) {
-            // todo
-        } else if (m_battleMode == BattleNavMode.SHOOT) {
-            if (m_pShootTrack != null) {
-                //shot
-                m_pBattle!!.Engine().Shot(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
-//                BeginAni()
-                // m_pBattle!!.Engine().Controller().ShotAction(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
-                m_pShootTrack = null
-            }
-        } else {
-            val pCurCreatGroup = m_pBattle!!.Engine().TurnSeq().CurUnit() as? iBattleUnit_CreatGroup
-            if (pCurCreatGroup != null) {
-                val nCell = Screen2Map(pos)
-                if (nCell == m_trackCell && pCurCreatGroup.GetCreatGroup()
-                        .CanMove(nCell.x, nCell.y) && !pCurCreatGroup.GetCreatGroup().IsGroupCell(nCell)
-                ) {
-                    m_pBattle!!.Engine().Move(nCell, pCurCreatGroup.GetCreatGroup().Orient())
-                    BeginAni()
-                }
-            }
-        }
-        m_trackCell.setTo(cInvalidPoint)
-        m_trackPos.setTo(cInvalidPoint)
-        if (m_toolTip.isNotEmpty()) {
-            m_toolTip = ""
-        }
-        Invalidate()
+        m_pBattle?.Engine()?.BattleNavEvents()?.add(m_battleMode)
+
+//        if (SpellTracking()) {
+//            EndSpellTrack(m_trackCell)
+//            Invalidate()
+//        } else if (m_pCreatInfoPopup != null || m_battleMode == BattleNavMode.INFO || m_bForceInfo) {
+//            m_pCreatInfoPopup?.let {
+//                RemoveChild(it)
+//                it.HidePopup()
+//                m_pCreatInfoPopup = null
+//            }
+//        } else if (m_battleMode == BattleNavMode.MELEE /*&& m_pMeleeTrack*/) {
+//            // todo
+//        } else if (m_battleMode == BattleNavMode.SHOOT) {
+//            if (m_pShootTrack != null) {
+//                //shot
+//                m_pBattle!!.Engine().Shot(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
+////                BeginAni()
+//                // m_pBattle!!.Engine().Controller().ShotAction(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
+//                m_pShootTrack = null
+//            }
+//        } else {
+//            val pCurCreatGroup = m_pBattle!!.Engine().TurnSeq().CurUnit() as? iBattleUnit_CreatGroup
+//            if (pCurCreatGroup != null) {
+//                val nCell = Screen2Map(pos)
+//                if (nCell == m_trackCell && pCurCreatGroup.GetCreatGroup()
+//                        .CanMove(nCell.x, nCell.y) && !pCurCreatGroup.GetCreatGroup().IsGroupCell(nCell)
+//                ) {
+//                    m_pBattle!!.Engine().Move(nCell, pCurCreatGroup.GetCreatGroup().Orient())
+//                    BeginAni()
+//                }
+//            }
+//        }
+//        m_trackCell.setTo(cInvalidPoint)
+//        m_trackPos.setTo(cInvalidPoint)
+//        if (m_toolTip.isNotEmpty()) {
+//            m_toolTip = ""
+//        }
+//        Invalidate()
     }
 
     override suspend fun OnMouseTrack(pos: IPointInt) {
@@ -781,6 +783,15 @@ class iBattleView : iChildGameView {
                     Invalidate()
                 }
             }
+        }
+
+        val battleNavEvent = m_pBattle!!.Engine().BattleNavEvents()
+                .firstOrNull()
+
+        if (battleNavEvent != null) {
+            println(battleNavEvent.name)
+            println(123)
+            m_pBattle!!.Engine().BattleNavEvents().remove(battleNavEvent)
         }
 
         // events
