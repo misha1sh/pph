@@ -4,8 +4,8 @@ PEASANT:
     v: 1
     descriptor:
         level: 1
-        natiuon: HIGHMEN
-        atack: 1
+        nation: HIGHMEN
+        attack: 1
         defence: 2
         speed: 4
         size: 1
@@ -24,13 +24,14 @@ PEASANT:
             sulfur: 0
         growth: 22
         pidx: 15
-        perks: NONE
+        perks:
+            - NONE
 ARCHER:
     v: 2
     descriptor:
         level: 2
-        natiuon: HIGHMEN
-        atack: 5
+        nation: HIGHMEN
+        attack: 5
         defence: 4
         speed: 5
         size: 1
@@ -49,13 +50,14 @@ ARCHER:
             sulfur: 0
         growth: 10
         pidx: 140
-        perks: DOUBLESHOT
+        perks: 
+            - DOUBLESHOT
 PIKEMAN:
     v: 3
     descriptor:
         level: 3
-        natiuon: HIGHMEN
-        atack: 5
+        nation: HIGHMEN
+        attack: 5
         defence: 9
         speed: 5
         size: 1
@@ -74,13 +76,14 @@ PIKEMAN:
             sulfur: 0
         growth: 7
         pidx: 250
-        perks: NONE
+        perks: 
+            - NONE
 MONK:
     v: 4
     descriptor:
         level: 4
-        natiuon: HIGHMEN
-        atack: 7
+        nation: HIGHMEN
+        attack: 7
         defence: 9
         speed: 7
         size: 1
@@ -99,13 +102,14 @@ MONK:
             sulfur: 0
         growth: 6
         pidx: 409
-        perks: NOMELEEPENALTY
+        perks: 
+            - NOMELEEPENALTY
 CAVALRY:
     v: 5
-     descriptor:
+    descriptor:
         level: 5
-        natiuon: HIGHMEN
-        atack: 10
+        nation: HIGHMEN
+        attack: 10
         defence: 9
         speed: 10
         size: 2
@@ -124,13 +128,14 @@ CAVALRY:
             sulfur: 0
         growth: 5
         pidx: 689
-        perks: JOUSTING
+        perks:
+            - JOUSTING
 PALADIN:
     v: 6
     descriptor:
         level: 6
-        natiuon: HIGHMEN
-        atack: 11
+        nation: HIGHMEN
+        attack: 11
         defence: 13
         speed: 10
         size: 1
@@ -149,13 +154,14 @@ PALADIN:
             sulfur: 0
         growth: 4
         pidx: 1764
-        perks: DOUBLEATTACK
+        perks: 
+            - DOUBLEATTACK
 GOBLIN:
     v: 7
     descriptor:
         level: 1
-        natiuon: BARBARIANS
-        atack: 4
+        nation: BARBARIANS
+        attack: 4
         defence: 1
         speed: 5
         size: 1
@@ -174,13 +180,14 @@ GOBLIN:
             sulfur: 0
         growth: 20
         pidx: 33
-        perks: NONE
+        perks: 
+            - NONE
 ORC:
     v: 8
     descriptor:
         level: 2
-        natiuon: BARBARIANS
-        atack: 3
+        nation: BARBARIANS
+        attack: 3
         defence: 4
         speed: 4
         size: 1
@@ -199,13 +206,14 @@ ORC:
             sulfur: 0
         growth: 10
         pidx: 155
-        perks: NONE
+        perks: 
+            - NONE
 WARG_RIDER:
     v: 9
     descriptor:
         level: 3
-        natiuon: BARBARIANS
-        atack: 6
+        nation: BARBARIANS
+        attack: 6
         defence: 4
         speed: 9
         size: 2
@@ -224,13 +232,14 @@ WARG_RIDER:
             sulfur: 0
         growth: 8
         pidx: 262
-        perks: DOUBLEATTACK
+        perks: 
+            - DOUBLEATTACK
 OGRE:
     v: 10
     descriptor:
         level: 4
-        natiuon: BARBARIANS
-        atack: 9
+        nation: BARBARIANS
+        attack: 9
         defence: 7
         speed: 5
         size: 1
@@ -249,13 +258,14 @@ OGRE:
             sulfur: 0
         growth: 6
         pidx: 627
-        perks: NONE
+        perks: 
+            - NONE
 TROLL:
     v: 11
     descriptor:
         level: 5
-        natiuon: BARBARIANS
-        atack: 10
+        nation: BARBARIANS
+        attack: 10
         defence: 6
         speed: 8
         size: 1
@@ -274,13 +284,14 @@ TROLL:
             sulfur: 0
         growth: 5
         pidx: 807
-        perks: REGENERATES
+        perks: 
+            - REGENERATES
 CYCLOP:
     v: 12
     descriptor:
         level: 6
-        natiuon: BARBARIANS
-        atack: 12
+        nation: BARBARIANS
+        attack: 12
         defence: 9
         speed: 9
         size: 1
@@ -299,13 +310,14 @@ CYCLOP:
             sulfur: 0
         growth: 4
         pidx: 2036
-        perks: TWOHEXATTACK
+        perks: 
+            - TWOHEXATTACK
 YOUNG_MAGE:
     v: 13
     descriptor:
         level: 1
-        natiuon: WIZARDS
-        atack: 2
+        nation: WIZARDS
+        attack: 2
         defence: 1
         speed: 3
         size: 1
@@ -324,21 +336,153 @@ YOUNG_MAGE:
             sulfur: 0
         growth: 18
         pidx: 41
-        perks: NONE
+        perks: 
+            - NONE
 WHITE_WOLF:
     v: 14
     descriptor:
         level: 2
-        natiuon: WIZARDS
-        atack: 5
+        nation: WIZARDS
+        attack: 5
         defence: 4
         speed: 8
         size: 2
         transType: WALK
-        shots: 5
-        hits: 4
-        damage_min: 1
+        shots: 0
+        hits: 15
+        damage_min: 2
         damage_max: 3
+        cost:
+            gold: 150
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 8
+        pidx: 149
+        perks: 
+            - NONE
+LIVING_ARMOR:
+    v: 15
+    descriptor:
+        level: 3
+        nation: WIZARDS
+        attack: 6
+        defence: 9
+        speed: 4
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 35
+        damage_min: 4
+        damage_max: 5
+        cost:
+            gold: 300
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 6
+        pidx: 401
+        perks: 
+            - LIFELESS
+            - QUARTERDMG
+PEGASUS:
+    v: 16
+    descriptor:
+        level: 4
+        nation: WIZARDS
+        attack: 7
+        defence: 7
+        speed: 9
+        size: 2
+        transType: FLY
+        shots: 0
+        hits: 40
+        damage_min: 5
+        damage_max: 8
+        cost:
+            gold: 400
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 5
+        pidx: 527
+        perks: 
+            - NONE
+MAGE:
+    v: 17
+    descriptor:
+        level: 5
+        nation: WIZARDS
+        attack: 12
+        defence:8
+        speed: 9
+        size: 1
+        transType: WALK
+        shots: 15
+        hits: 35
+        damage_min: 7
+        damage_max: 10
+        cost:
+            gold: 700
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 5
+        pidx: 748
+        perks: 
+            - NOMELEEPENALTY
+THOR:
+    v: 18
+    descriptor:
+        level: 6
+        nation: WIZARDS
+        attack: 13
+        defence:13
+        speed: 14
+        size: 1
+        transType: WALK
+        shots: 15
+        hits: 300
+        damage_min: 15
+        damage_max: 30
+        cost:
+            gold: 3500
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 3
+        pidx: 6950
+        perks: 
+            - NOMELEEPENALTY
+CENTAUR:
+    v: 19
+    descriptor:
+        level: 1
+        nation: BEASTMEN
+        attack: 3
+        defence: 1
+        speed: 5
+        size: 2
+        transType: WALK
+        shots: 5
+        hits: 5
+        damage_min: 1
+        damage_max: 2
         cost:
             gold: 60
             ore: 0
@@ -348,6 +492,708 @@ WHITE_WOLF:
             crystal: 0
             sulfur: 0
         growth: 18
-        pidx: 41
-        perks: NONE
-        
+        pidx: 47
+        perks: 
+            - NONE
+GARGOYLE:
+    v: 20
+    descriptor:
+        level: 2
+        nation: BEASTMEN
+        attack: 4
+        defence: 7
+        speed: 9
+        size: 1
+        transType: FLY
+        shots: 0
+        hits: 15
+        damage_min: 2
+        damage_max: 3
+        cost:
+            gold: 200
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 8
+        pidx: 175
+        perks: 
+            - LIFELESS
+GRIFFIN:
+    v: 21
+    descriptor:
+        level: 3
+        nation: BEASTMEN
+        attack: 6
+        defence: 6
+        speed: 8
+        size: 2
+        transType: FLY
+        shots: 0
+        hits: 25
+        damage_min: 3
+        damage_max: 5
+        cost:
+            gold: 300
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 6
+        pidx: 334
+        perks: 
+            - RETALTOALL
+MINOTAUR:
+    v: 22
+    descriptor:
+        level: 4
+        nation: BEASTMEN
+        attack: 9
+        defence: 8
+        speed: 8
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 50
+        damage_min: 5
+        damage_max: 10
+        cost:
+            gold: 500
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 5
+        pidx: 682
+        perks: 
+            - NONE
+HYDRA:
+    v: 23
+    descriptor:
+        level: 5
+        nation: BEASTMEN
+        attack: 8
+        defence: 9
+        speed: 4
+        size: 2
+        transType: WALK
+        shots: 0
+        hits: 60
+        damage_min: 6
+        damage_max: 12
+        cost:
+            gold: 750
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 872
+        perks: 
+            - NONRETALATTACK
+            - ADJACENTATTACK
+RED_DRAGON:
+    v: 24
+    descriptor:
+        level: 6
+        nation: BEASTMEN
+        attack: 13
+        defence: 12
+        speed: 13
+        size: 2
+        transType: FLY
+        shots: 0
+        hits: 250
+        damage_min: 20
+        damage_max: 40
+        cost:
+            gold: 4000
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 3
+        pidx: 8528
+        perks: 
+            - ALLMAGICIMM
+            - TWOHEXATTACK
+SPRITE:
+    v: 25
+    descriptor:
+        level: 1
+        nation: ELVES
+        attack: 4
+        defence: 2
+        speed: 7
+        size: 1
+        transType: FLY
+        shots: 0
+        hits: 2
+        damage_min: 1
+        damage_max: 2
+        cost:
+            gold: 60
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 20
+        pidx: 39
+        perks: 
+            - NONRETALATTACK
+DWARF:
+    v: 26
+    descriptor:
+        level: 2
+        nation: ELVES
+        attack: 6
+        defence: 6
+        speed: 5
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 20
+        damage_min: 2
+        damage_max: 4
+        cost:
+            gold: 250
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 8
+        pidx: 190
+        perks: 
+            - PROCRESIST40
+ELF:
+    v: 27
+    descriptor:
+        level: 3
+        nation: ELVES
+        attack: 5
+        defence: 5
+        speed: 8
+        size: 1
+        transType: WALK
+        shots: 20
+        hits: 15
+        damage_min: 2
+        damage_max: 4
+        cost:
+            gold: 300
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 7
+        pidx: 194
+        perks: 
+            - DOUBLESHOT
+DRUID:
+    v: 28
+    descriptor:
+        level: 4
+        nation: ELVES
+        attack: 8
+        defence: 7
+        speed: 8
+        size: 1
+        transType: WALK
+        shots: 15
+        hits: 25
+        damage_min: 5
+        damage_max: 8
+        cost:
+            gold: 400
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 5
+        pidx: 433
+        perks: 
+            - NOMELEEPENALTY
+UNICORN:
+    v: 29
+    descriptor:
+        level: 5
+        nation: ELVES
+        attack: 10
+        defence: 9
+        speed: 9
+        size: 2
+        transType: WALK
+        shots: 0
+        hits: 60
+        damage_min: 7
+        damage_max: 14
+        cost:
+            gold: 650
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 819
+        perks: 
+            - NONE
+FIREBIRD:
+    v: 30
+    descriptor:
+        level: 6
+        nation: ELVES
+        attack: 12
+        defence: 11
+        speed: 15
+        size: 2
+        transType: FLY
+        shots: 0
+        hits: 150
+        damage_min: 20
+        damage_max: 40
+        cost:
+            gold: 1700
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 3
+        pidx: 3064
+        perks: 
+            - FIREMAGICIMM
+            - TWOHEXATTACK
+SKELETON:
+    v: 31
+    descriptor:
+        level: 1
+        nation: UNDEADS
+        attack: 3
+        defence: 3
+        speed: 5
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 4
+        damage_min: 1
+        damage_max: 3
+        cost:
+            gold: 65
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 18
+        pidx: 62
+        perks: 
+            - UNDEAD
+ZOMBIE:
+    v: 32
+    descriptor:
+        level: 2
+        nation: UNDEADS
+        attack: 5
+        defence: 2
+        speed: 5
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 20
+        damage_min: 2
+        damage_max: 3
+        cost:
+            gold: 200
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 8
+        pidx: 153
+        perks: 
+            - UNDEAD
+LICH:
+    v: 33
+    descriptor:
+        level: 3
+        nation: UNDEADS
+        attack: 7
+        defence: 6
+        speed: 7
+        size: 1
+        transType: WALK
+        shots: 6
+        hits: 25
+        damage_min: 2
+        damage_max: 3
+        cost:
+            gold: 330
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 6
+        pidx: 320
+        perks: 
+            - UNDEAD
+            - NOMELEEPENALTY
+            - LICHSHOOT
+VAMPIRE:
+    v: 34
+    descriptor:
+        level: 4
+        nation: UNDEADS
+        attack: 8
+        defence: 6
+        speed: 9
+        size: 1
+        transType: FLY
+        shots: 0
+        hits: 40
+        damage_min: 5
+        damage_max: 7
+        cost:
+            gold: 650
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 5
+        pidx: 746
+        perks: 
+            - UNDEAD
+            - NONRETALATTACK
+            - DRAINLIFES
+BLACK_KNIGHT:
+    v: 35
+    descriptor:
+        level: 5
+        nation: UNDEADS
+        attack: 8
+        defence: 12
+        speed: 9
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 50
+        damage_min: 8
+        damage_max: 14
+        cost:
+            gold: 850
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 795
+        perks: 
+            - UNDEAD
+PLAGUE:
+    v: 36
+    descriptor:
+        level: 6
+        nation: UNDEADS
+        attack: 11
+        defence: 9
+        speed: 8
+        size: 2
+        transType: FLY
+        shots: 15
+        hits: 150
+        damage_min: 20
+        damage_max: 35
+        cost:
+            gold: 2500
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 3
+        pidx: 3559
+        perks: 
+            - UNDEAD
+ROGUE:
+    v: 37
+    descriptor:
+        level: 1
+        nation: NEUTRAL
+        attack: 6
+        defence: 1
+        speed: 6
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 3
+        damage_min: 1
+        damage_max: 2
+        cost:
+            gold: 50
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 8
+        pidx: 54
+        perks: 
+            - NONRETALATTACK
+NOMAD:
+    v: 38
+    descriptor:
+        level: 3
+        nation: NEUTRAL
+        attack: 7
+        defence: 5
+        speed: 9
+        size: 2
+        transType: WALK
+        shots: 0
+        hits: 20
+        damage_min: 2
+        damage_max: 5
+        cost:
+            gold: 200
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 6
+        pidx: 244
+        perks: 
+            - NONE
+GHOST:
+    v: 39
+    descriptor:
+        level: 5
+        nation: NEUTRAL
+        attack: 8
+        defence: 6
+        speed: 7
+        size: 1
+        transType: FLY
+        shots: 0
+        hits: 20
+        damage_min: 4
+        damage_max: 6
+        cost:
+            gold: 1000
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 468
+        perks: 
+            - UNDEAD
+            - GHOST
+GENIE:
+    v: 40
+    descriptor:
+        level: 6
+        nation: NEUTRAL
+        attack: 10
+        defence: 9
+        speed: 10
+        size: 1
+        transType: FLY
+        shots: 0
+        hits: 50
+        damage_min: 20
+        damage_max: 30
+        cost:
+            gold: 750
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 3
+        pidx: 1725
+        perks: 
+            - DOHALF
+MEDUSA:
+    v: 41
+    descriptor:
+        level: 4
+        nation: NEUTRAL
+        attack: 8
+        defence: 9
+        speed: 5
+        size: 2
+        transType: WALK
+        shots: 0
+        hits: 35
+        damage_min: 6
+        damage_max: 10
+        cost:
+            gold: 350
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 600
+        perks: 
+            - NONE
+EARTH_ELEMENTAL:
+    v: 42
+    descriptor:
+        level: 4
+        nation: NEUTRAL
+        attack: 8
+        defence: 8
+        speed: 4
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 50
+        damage_min: 4
+        damage_max: 5
+        cost:
+            gold: 500
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 525
+        perks: 
+            - EARTHMAGICIMM
+            - LIFELESS
+AIR_ELEMENTAL:
+    v: 43
+    descriptor:
+        level: 4
+        nation: NEUTRAL
+        attack: 7
+        defence: 7
+        speed: 7
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 35
+        damage_min: 2
+        damage_max: 8
+        cost:
+            gold: 500
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 428
+        perks: 
+            - AIRMAGICIMM
+            - LIFELESS
+FIRE_ELEMENTAL:
+    v: 44
+    descriptor:
+        level: 4
+        nation: NEUTRAL
+        attack: 8
+        defence: 6
+        speed: 6
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 40
+        damage_min: 4
+        damage_max: 5
+        cost:
+            gold: 500
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 455
+        perks: 
+            - FIREMAGICIMM
+            - LIFELESS
+WATER_ELEMENTAL:
+    v: 45
+    descriptor:
+        level: 4
+        nation: NEUTRAL
+        attack: 6
+        defence: 8
+        speed: 5
+        size: 1
+        transType: WALK
+        shots: 0
+        hits: 45
+        damage_min: 3
+        damage_max: 7
+        cost:
+            gold: 500
+            ore: 0
+            wood: 0
+            mercury: 0
+            gem: 0
+            crystal: 0
+            sulfur: 0
+        growth: 4
+        pidx: 512
+        perks: 
+            - WATERMAGICIMM
+            - LIFELESS
+RANDOM:
+    v: 3840
+RANDOM_L1:
+    v: 3841
+RANDOM_L2:
+    v: 3842
+RANDOM_L3:
+    v: 3843
+RANDOM_L4:
+    v: 3844
+RANDOM_L5:
+    v: 3845
+RANDOM_L6:
+    v: 3846

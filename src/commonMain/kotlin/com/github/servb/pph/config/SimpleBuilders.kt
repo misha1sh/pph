@@ -38,6 +38,15 @@ fun createTransportationType(str: String): TransportationType {
 }
 
 fun createCreatureDescriptor(yaml: LinkedHashMap<String, Any?>): CreatureDescriptor{
+
+    var listOfPerks = yaml["perks"] as ArrayList<String>
+
+    var perksFlag = 0
+
+    for(perk in listOfPerks){
+        perksFlag = perksFlag or Data.perks!!.perkByName[perk]!!.v
+    }
+
     return CreatureDescriptor(
         level = yaml["level"] as Int,
         nation = Data.nationTypes!!.nationTypeByName[yaml["nation"] as String]!!,
@@ -53,6 +62,6 @@ fun createCreatureDescriptor(yaml: LinkedHashMap<String, Any?>): CreatureDescrip
         cost = createMineralSet(yaml["cost"] as LinkedHashMap<String, Any?>) as MineralSetC,
         growth = yaml["growth"] as Int,
         pidx = yaml["pidx"] as Int,
-        perks = Data.perks!!.perkByName[yaml["perks"] as String]!!.v
+        perks = perksFlag
     )
 }

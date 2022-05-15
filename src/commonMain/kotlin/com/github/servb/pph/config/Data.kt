@@ -1,9 +1,8 @@
 package com.github.servb.pph.config
 
 import com.soywiz.korio.file.VfsFile
-import com.soywiz.korio.file.std.resourcesVfs
 import com.soywiz.korio.serialization.yaml.Yaml
-import com.soywiz.korio.stream.SyncStream
+
 
 class Data {
     companion object {
@@ -13,6 +12,7 @@ class Data {
         var surfaceTypes: SurfaceTypes? = null
         var nationTypes: NationTypes? = null
         var perks: Perks? = null
+        var creatureTypes: CreatureTypes? = null
 
 
         suspend fun init(res: VfsFile) {
@@ -22,6 +22,7 @@ class Data {
             surfaceTypes = SurfaceTypes(getYaml(res["configs\\SurfaceTypes.yml"]))
             nationTypes = NationTypes(getYaml(res["configs\\NationTypes.yml"]))
             perks = Perks(getYaml(res["configs\\Perks.yml"]))
+            creatureTypes = CreatureTypes(getYaml(res["configs\\CreatureTypes.yml"]))
         }
 
 

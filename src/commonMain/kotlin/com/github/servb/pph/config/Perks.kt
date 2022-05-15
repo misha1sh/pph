@@ -100,6 +100,7 @@ class Perks {
 
 
         ALLMAGICIMM = Perk(AIRMAGICIMM.v or EARTHMAGICIMM.v or FIREMAGICIMM.v or WATERMAGICIMM.v, "Black draggons")
+        perkByName["ALLMAGICIMM"] = ALLMAGICIMM
     }
 
 
