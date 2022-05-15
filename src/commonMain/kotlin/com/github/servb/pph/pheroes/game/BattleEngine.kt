@@ -789,7 +789,7 @@ class iBattleEngine {
         m_bAutoBattle = false
 //        m_obsMap.FillMem()  // todo
 
-        m_controller = BattleController(this, gGame.getLocalNetManager())
+        m_controller = BattleController(this)
     }
 
     fun Controller() : BattleController = m_controller

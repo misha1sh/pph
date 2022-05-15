@@ -12,25 +12,25 @@ import readMsg
 import writeMsg
 import kotlin.coroutines.coroutineContext
 
-class LocalNetManager (val client: AsyncClient, val connection: AsyncCloseable) : AsyncCloseable {
-    companion object Factory {
-        // will return only when other client connected
-        suspend fun hostServer(): Result<LocalNetManager> {
-            return runCatching {
-                runServer(3337)
-            }.map {
-                return Result.success(LocalNetManager(it.client, it.server))
-            }
-        }
-
-        suspend fun connectAsClient(hostIp: String): Result<LocalNetManager> {
-            return runCatching {
-                runClient(hostIp, 3337)
-            }.map {
-                return Result.success(LocalNetManager(it, it))
-            }
-        }
-    }
+class LocalNetManager (val client: AsyncClient, val connection: AsyncCloseable, val internal: Any) : AsyncCloseable {
+//    companion object Factory {
+//        // will return only when other client connected
+//        suspend fun hostServer(): Result<LocalNetManager> {
+//            return runCatching {
+//                runServer(3337)
+//            }.map {
+//                return Result.success(LocalNetManager(it.client, it.server))
+//            }
+//        }
+//
+//        suspend fun connectAsClient(hostIp: String): Result<LocalNetManager> {
+//            return runCatching {
+//                runClient(hostIp, 3337)
+//            }.map {
+//                return Result.success(LocalNetManager(it, it))
+//            }
+//        }
+//    }
 
 
 //    private var scope = MainScope()
@@ -46,10 +46,24 @@ class LocalNetManager (val client: AsyncClient, val connection: AsyncCloseable) 
     }
 
     private suspend fun loop() = coroutineScope {
+        when (internal) {
+            is LocalNetClient -> {
+                while (internal.State() != ClientState.SUCCESS) {
+                    delay(100)
+                }
+            }
+            is LocalNetServer -> {
+                while (internal.State() != ServerState.SUCCESS) {
+                    delay(100)
+                }
+            }
+            else -> throw IllegalArgumentException("Illegal type $internal")
+        }
         launch {
             println("Reading started")
             while (client.connected) {
                 val msg = messagesToSend.receiveCatching().getOrNull() ?: break
+                print("Sending $msg")
                 client.writeMsg(msg)
             }
             println("Reading stopped")
@@ -58,12 +72,14 @@ class LocalNetManager (val client: AsyncClient, val connection: AsyncCloseable) 
             println("Writing started")
             while (client.connected) {
                 val msg = client.readMsg()
+                println("Received $msg")
                 messagesToReceive.send(msg)
             }
             println("Writing stopped")
         }
     }
 
+    fun inputMessages(): Channel<Any> = messagesToReceive
 
     fun sendMessage(message: Any) {
         messagesToSend.trySend(message).getOrThrow();

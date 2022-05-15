@@ -1,10 +1,14 @@
 package com.github.servb.pph.pheroes.game
 
+import com.github.servb.pph.config.Data
+import com.github.servb.pph.config.DifficultyLevel
 import com.github.servb.pph.gxlib.*
+import com.github.servb.pph.network.LocalNetClient
+import com.github.servb.pph.network.LocalNetManager
+import com.github.servb.pph.network.LocalNetServer
 import com.github.servb.pph.pheroes.common.GfxId
 import com.github.servb.pph.pheroes.common.TextResId
 import com.github.servb.pph.pheroes.common.castle.CastleType
-import com.github.servb.pph.pheroes.common.common.DifficultyLevel
 import com.github.servb.pph.pheroes.common.common.PlayerId
 import com.github.servb.pph.pheroes.common.common.PlayerType
 import com.github.servb.pph.pheroes.common.common.PlayerTypeMask
@@ -14,10 +18,18 @@ import com.github.servb.pph.util.helpertype.getByValue
 import com.github.servb.pph.util.helpertype.or
 import com.soywiz.korma.geom.*
 
+enum class PlayerState {
+    EMPTY,
+    WAITING,
+    CONNECTED,
+    YOU
+}
+
 private class iPlayerBtn : iButton {
 
     private val m_pid: PlayerId
     private var m_pt: PlayerType
+    private var m_playerState: PlayerState
 
     constructor(
         pViewMgr: iViewMgr,
@@ -25,15 +37,24 @@ private class iPlayerBtn : iButton {
         rect: IRectangleInt,
         pid: PlayerId,
         pt: PlayerType,
+        ps: PlayerState,
         uid: UInt,
         state: Int = ViewState.Visible or ViewState.Enabled
     ) : super(pViewMgr, pCmdHandler, rect, uid, state) {
         m_pid = pid
         m_pt = pt
+        m_playerState = ps
+    }
+
+    fun SetPlayerState(ps: PlayerState) {
+        m_playerState = ps
     }
 
     override fun OnCompose() {
-        val rc = GetScrRect()
+        val fullRc = GetScrRect()
+
+        val rc = fullRc.setSize(fullRc.width, fullRc.width)
+
         gApp.Surface().FrameRect(rc, cColor.Black.pixel)
         rc.rect.inflate(-1)
         gApp.Surface().FillRect(rc, m_pid.color, 96u)
@@ -49,6 +70,27 @@ private class iPlayerBtn : iButton {
             rc.y + (rc.height / 2) - (gGfxMgr.Dimension(sid).height / 2)
         )
         gGfxMgr.Blit(sid, gApp.Surface(), op)
+
+        val fc = iTextComposer.FontConfig(dlgfc_splain)
+
+        if (m_playerState != PlayerState.EMPTY) {
+            gTextComposer.TextOut(
+                fc,
+                gApp.Surface(),
+                fullRc.asPoint(),
+                when(m_playerState) {
+                    PlayerState.WAITING -> "Waiting"
+                    PlayerState.CONNECTED -> "Ready"
+                    PlayerState.YOU -> "You"
+                    else -> throw IllegalArgumentException("$m_playerState")
+                },
+                fullRc,
+                Alignment.AlignBottom,
+                PointInt(0, 12)
+            )
+        }
+
+
         /*  // commented in sources
 		if (m_pt == PT_HUMAN) gTextComposer.TextOut(dlgfc_stopic, gApp.Surface(), iPoint(), _T("Human"), rc, AlignCenter);
 		else if (m_pt == PT_COMPUTER) gTextComposer.TextOut(dlgfc_splain, gApp.Surface(), iPoint(), _T("CPU"), rc, AlignCenter);
@@ -60,6 +102,10 @@ private class iPlayerBtn : iButton {
     }
 
     fun PlayerType(): PlayerType = m_pt
+
+    fun SetPlayerType(pt: PlayerType){
+        m_pt = pt
+    }
 
     fun TogglePlayerType(): PlayerType {
         if (m_pt == PlayerType.HUMAN) {
@@ -209,7 +255,7 @@ private class iDifLvlTab : iTabbedSwitch {
         pViewMgr,
         pCmdHandler,
         rect,
-        DifficultyLevel.COUNT.v,
+        Data.difficultyLevels!!.count(),
         uid,
         state
     )
@@ -235,6 +281,11 @@ class iScenPropsDlg : iBaseGameDlg {
 
     private val m_btnPlayers: MutableList<iPlayerBtn> = mutableListOf()
     private val m_btnNations: MutableList<iNationBtn> = mutableListOf()
+
+    private var m_server: LocalNetServer? = null
+    private var m_client: LocalNetClient? = null
+
+
     private lateinit var m_difLevel: iDifLvlTab
     private lateinit var m_btnNetType: iNetGameTypeBtn
 
@@ -247,6 +298,7 @@ class iScenPropsDlg : iBaseGameDlg {
     }
 
     fun ScenProps(): iMapInfo = m_scProps
+
 
     override suspend fun OnCreateDlg() {
         val clRect = ClientRect()
@@ -281,8 +333,8 @@ class iScenPropsDlg : iBaseGameDlg {
             if (m_bReadOnly) ViewState.Visible.v else (ViewState.Visible or ViewState.Enabled)
         )
         AddChild(m_difLevel)
-        if (m_scProps.m_Difficulty == DifficultyLevel.UNDEFINED) {
-            m_scProps.m_Difficulty = DifficultyLevel.NORMAL
+        if (m_scProps.m_Difficulty == Data.difficultyLevels!!.UNDEFINED) {
+            m_scProps.m_Difficulty = Data.difficultyLevels!!.NORMAL
         }
         m_difLevel.SetCurrentTab(m_scProps.m_Difficulty.v)
         m_pDfcLabel.SetText(GetDfcString(m_scProps.m_Difficulty))
@@ -314,14 +366,16 @@ class iScenPropsDlg : iBaseGameDlg {
             val pPlBtn = iPlayerBtn(
                 m_pMgr,
                 this,
-                IRectangleInt(sx, sy + 25, 34, 34),
+                IRectangleInt(sx + 2, sy + 25, 30, 30 + 10),
                 m_scProps.m_Players[xx].m_Id,
                 if (m_bReadOnly) m_scProps.m_Players[xx].m_Type else tp,
+                PlayerState.EMPTY,
                 (200 + xx).toUInt(),
                 if (!m_bReadOnly && (m_scProps.m_Players[xx].m_TypeMask == PlayerTypeMask.HUMAN_OR_COMPUTER)) (ViewState.Visible or ViewState.Enabled) else ViewState.Visible.v
             )
             AddChild(pPlBtn)
             m_btnPlayers.add(pPlBtn)
+
             sx += 37
         }
 
@@ -369,36 +423,131 @@ class iScenPropsDlg : iBaseGameDlg {
     }
 
     override fun DoCompose(clRect: IRectangleInt) {
+        UpdateConnectionState()
         // empty in sources
     }
 
     override fun ClientSize(): SizeInt = SizeInt(270, 150 + DEF_BTN_HEIGHT)
 
-    private fun UpdateControls() {
+    private fun UpdateConnectionState() {
         val humanCount = m_scProps.m_Players.indices.count { m_btnPlayers[it].PlayerType() == PlayerType.HUMAN }
-        m_pOkBtn.SetEnabled(humanCount != 0 && (
-                (m_btnNetType.GetGameType() == NetGameType.Local) || humanCount > 1)
-        )
 
+        when (m_btnNetType.GetGameType()) {
+            NetGameType.Local -> {
+                m_pOkBtn.SetEnabled(humanCount != 0)
+            }
+            NetGameType.Client -> {
+                val client_state = when (m_client?.connected()) {
+                    true -> PlayerState.CONNECTED
+                    false, null -> PlayerState.WAITING
+                }
+                m_btnPlayers[0].SetPlayerState(client_state)
+                m_pOkBtn.SetEnabled(false)
+
+                if (m_client?.started() == true) {
+                    FinishDialog(DLG_RETCODE.OK.v)
+                }
+            }
+            NetGameType.Server -> {
+                val client_state = when (m_server?.hasClient()) {
+                    true -> PlayerState.CONNECTED
+                    false, null -> PlayerState.WAITING
+                }
+                m_btnPlayers[1].SetPlayerState(
+                    client_state
+                )
+                m_pOkBtn.SetEnabled(client_state == PlayerState.CONNECTED)
+            }
+        }
+    }
+
+    private fun UpdateControls() {
+        when (m_btnNetType.GetGameType()) {
+            NetGameType.Local -> {
+                for (btnPlayer in m_btnPlayers) {
+                    btnPlayer.SetPlayerState(PlayerState.EMPTY)
+                }
+                m_server?.close()
+                m_server = null
+                m_client?.close()
+                m_client = null
+            }
+            NetGameType.Client -> {
+                for (btnPlayer in m_btnPlayers) {
+                    btnPlayer.SetPlayerType(PlayerType.COMPUTER)
+                }
+                m_btnPlayers[0].SetPlayerType(PlayerType.HUMAN)
+                m_btnPlayers[0].SetPlayerState(PlayerState.WAITING)
+                m_btnPlayers[1].SetPlayerType(PlayerType.HUMAN)
+                m_btnPlayers[1].SetPlayerState(PlayerState.YOU)
+
+                m_server?.close()
+                m_server = null
+
+                m_client = LocalNetClient("192.168.100.13", 3337)
+                m_client!!.run()
+            }
+            NetGameType.Server -> {
+                for (btnPlayer in m_btnPlayers) {
+                    btnPlayer.SetPlayerType(PlayerType.COMPUTER)
+                }
+                m_btnPlayers[0].SetPlayerType(PlayerType.HUMAN)
+                m_btnPlayers[0].SetPlayerState(PlayerState.YOU)
+                m_btnPlayers[1].SetPlayerType(PlayerType.HUMAN)
+                m_btnPlayers[1].SetPlayerState(PlayerState.WAITING)
+
+                m_client?.close()
+                m_client = null
+                m_server = LocalNetServer(3337)
+                m_server!!.run()
+            }
+        }
+    }
+
+    fun FinishDialog(uid: Int) {
+        // Setup difficulty
+        m_scProps.m_Difficulty = Data.difficultyLevels!![m_difLevel.GetCurrentTab()]!!
+        // Setup players
+        m_scProps.m_Players.indices.forEach { xx ->
+            m_scProps.m_Players[xx].m_Type = m_btnPlayers[xx].PlayerType()
+            m_scProps.m_Players[xx].m_Nation = m_btnNations[xx].PlayerNation()
+        }
+        // Setup net
+        m_scProps.m_netGameType = m_btnNetType.GetGameType()
+        // if (uid == DLG_RETCODE.OK.v) {
+        // m_scProps.netManager = ....convert()
+        //}
+
+        when (m_btnNetType.GetGameType()) {
+            NetGameType.Local -> {}
+            NetGameType.Client -> {
+                if (uid == DLG_RETCODE.OK.v) {
+                    val v = m_client!!.convert()
+                    gGame.setLocalNetManager(LocalNetManager(v, v, m_client!!))
+                }
+            }
+            NetGameType.Server -> {
+                if (uid == DLG_RETCODE.OK.v) {
+                    val v = m_server!!.convert()
+                    gGame.setLocalNetManager(LocalNetManager(v.client, v.server, m_server!!))
+                }
+            }
+        }
+
+        m_server?.close()
+        m_client?.close()
+
+        EndDialog(uid)
     }
 
     override suspend fun iCMDH_ControlCommand(pView: iView, cmd: CTRL_CMD_ID, param: Int) {
         val uid = pView.GetUID().toInt()
         when {
             (uid == DLG_RETCODE.OK.v || uid == DLG_RETCODE.CANCEL.v) && cmd == CTRL_CMD_ID.BUTTON_CLICK -> {
-                // Setup difficulty
-                m_scProps.m_Difficulty = getByValue(m_difLevel.GetCurrentTab())
-                // Setup players
-                m_scProps.m_Players.indices.forEach { xx ->
-                    m_scProps.m_Players[xx].m_Type = m_btnPlayers[xx].PlayerType()
-                    m_scProps.m_Players[xx].m_Nation = m_btnNations[xx].PlayerNation()
-                }
-                // Setup net
-                m_scProps.m_netGameType = m_btnNetType.GetGameType()
-                EndDialog(uid)
+                FinishDialog(uid)
             }
             uid == 301 -> {
-                m_pDfcLabel.SetText(GetDfcString(getByValue(m_difLevel.GetCurrentTab())))
+                m_pDfcLabel.SetText(GetDfcString(Data.difficultyLevels!![m_difLevel.GetCurrentTab()]!!))
             }
             uid == 401 -> {
                 var title = m_scProps.m_Name

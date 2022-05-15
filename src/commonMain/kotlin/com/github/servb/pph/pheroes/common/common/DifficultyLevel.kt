@@ -4,7 +4,7 @@ import com.github.servb.pph.util.helpertype.UndefinedCountValueEnum
 import com.github.servb.pph.util.helpertype.UniqueValueEnum
 
 /** TODO: Provide documentation, provide tests.  */
-enum class DifficultyLevel(
+/*enum class DifficultyLevel(
         override val v: Int,
         val human: MineralSetC? = null,
         val computer: MineralSetC? = null
@@ -42,4 +42,4 @@ enum class DifficultyLevel(
     ),
 
     COUNT(5);
-}
+}*/

@@ -1,12 +1,12 @@
 package com.github.servb.pph.pheroes.game
 
+import com.github.servb.pph.config.SurfaceType
 import com.github.servb.pph.gxlib.*
 import com.github.servb.pph.pheroes.common.GfxId
 import com.github.servb.pph.pheroes.common.IsoMetric
 import com.github.servb.pph.pheroes.common.TextResId
 import com.github.servb.pph.pheroes.common.common.CalcCellSeqGame
 import com.github.servb.pph.pheroes.common.common.PlayerId
-import com.github.servb.pph.pheroes.common.common.SurfaceType
 import com.github.servb.pph.pheroes.common.creature.Perk
 import com.github.servb.pph.pheroes.common.iSortArray
 import com.github.servb.pph.pheroes.common.magic.SpellDisposition
@@ -715,9 +715,9 @@ class iBattleView : iChildGameView {
 //        } else if (m_battleMode == BattleNavMode.SHOOT) {
 //            if (m_pShootTrack != null) {
 //                //shot
-//                m_pBattle!!.Engine().Shot(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
-////                BeginAni()
-//                // m_pBattle!!.Engine().Controller().ShotAction(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
+//                // m_pBattle!!.Engine().Shot(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
+////              //  BeginAni()
+//                m_pBattle!!.Engine().Controller().ShotAction(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
 //                m_pShootTrack = null
 //            }
 //        } else {
@@ -790,6 +790,10 @@ class iBattleView : iChildGameView {
     }
 
     override suspend fun Process(t: Double): Boolean {
+        if (m_pBattle!!.Engine().ActionCount() == 0) {
+            m_pBattle!!.Engine().Controller().ProcessMessages()
+        }
+
         // actions
         if (m_pBattle!!.Engine().ActionCount() != 0) {
             if (!m_bAni) {

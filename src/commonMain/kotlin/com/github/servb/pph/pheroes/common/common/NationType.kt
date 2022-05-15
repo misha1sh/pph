@@ -3,6 +3,7 @@ package com.github.servb.pph.pheroes.common.common
 import com.github.servb.pph.util.helpertype.CountValueEnum
 import com.github.servb.pph.util.helpertype.UniqueValueEnum
 
+
 enum class NationType(
         override val v: Int,
         val mask: Int = -42,
