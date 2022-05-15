@@ -727,28 +727,6 @@ class iBattleView : iChildGameView {
                 m_pCreatInfoPopup = null
             }
         }
-//        } else if (m_battleMode == BattleNavMode.MELEE /*&& m_pMeleeTrack*/) {
-//            // todo
-//        } else if (m_battleMode == BattleNavMode.SHOOT) {
-//            if (m_pShootTrack != null) {
-//                //shot
-//                // m_pBattle!!.Engine().Shot(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
-////              //  BeginAni()
-//                m_pBattle!!.Engine().Controller().ShotAction(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
-//                m_pShootTrack = null
-//            }
-//        } else {
-//            val pCurCreatGroup = m_pBattle!!.Engine().TurnSeq().CurUnit() as? iBattleUnit_CreatGroup
-//            if (pCurCreatGroup != null) {
-//                val nCell = Screen2Map(pos)
-//                if (nCell == m_trackCell && pCurCreatGroup.GetCreatGroup()
-//                        .CanMove(nCell.x, nCell.y) && !pCurCreatGroup.GetCreatGroup().IsGroupCell(nCell)
-//                ) {
-//                    m_pBattle!!.Engine().Move(nCell, pCurCreatGroup.GetCreatGroup().Orient())
-//                    BeginAni()
-//                }
-//            }
-//        }
         m_trackCell.setTo(cInvalidPoint)
         m_trackPos.setTo(cInvalidPoint)
         if (m_toolTip.isNotEmpty()) {

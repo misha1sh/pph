@@ -170,20 +170,6 @@ private class iNetGameTypeBtn : iButton {
             if ((m_state and iButton.State.Pressed.v) != 0) PointInt(1, 1) else PointInt()
         )
 
-//        val sid = if (m_pt == PlayerType.HUMAN) {
-//            GfxId.PDGG_ICN_PLT_HUMAN
-//        } else {
-//            GfxId.PDGG_ICN_PLT_AI
-//        }.v
-//        val op = IPointInt(
-//            rc.x + (rc.width / 2) - (gGfxMgr.Dimension(sid).width / 2),
-//            rc.y + (rc.height / 2) - (gGfxMgr.Dimension(sid).height / 2)
-//        )
-//        gGfxMgr.Blit(sid, gApp.Surface(), op)
-        /*  // commented in sources
-		if (m_pt == PT_HUMAN) gTextComposer.TextOut(dlgfc_stopic, gApp.Surface(), iPoint(), _T("Human"), rc, AlignCenter);
-		else if (m_pt == PT_COMPUTER) gTextComposer.TextOut(dlgfc_splain, gApp.Surface(), iPoint(), _T("CPU"), rc, AlignCenter);
-		*/
 
         if (!IsEnabled()) {
             gApp.Surface().FillRect(rc, cColor.Gray64.pixel, 128u)

@@ -13,27 +13,6 @@ import writeMsg
 import kotlin.coroutines.coroutineContext
 
 class LocalNetManager (val client: AsyncClient, val connection: AsyncCloseable, val internal: Any) : AsyncCloseable {
-//    companion object Factory {
-//        // will return only when other client connected
-//        suspend fun hostServer(): Result<LocalNetManager> {
-//            return runCatching {
-//                runServer(3337)
-//            }.map {
-//                return Result.success(LocalNetManager(it.client, it.server))
-//            }
-//        }
-//
-//        suspend fun connectAsClient(hostIp: String): Result<LocalNetManager> {
-//            return runCatching {
-//                runClient(hostIp, 3337)
-//            }.map {
-//                return Result.success(LocalNetManager(it, it))
-//            }
-//        }
-//    }
-
-
-//    private var scope = MainScope()
     private var job: Job? = null;
     private var messagesToSend = Channel<Any>(Channel.UNLIMITED)
     private var messagesToReceive = Channel<Any>(Channel.UNLIMITED)
