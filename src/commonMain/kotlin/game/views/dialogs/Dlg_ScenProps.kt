@@ -16,6 +16,7 @@ import com.github.servb.pph.util.asPoint
 import com.github.servb.pph.util.helpertype.and
 import com.github.servb.pph.util.helpertype.getByValue
 import com.github.servb.pph.util.helpertype.or
+import com.soywiz.korio.util.OS
 import com.soywiz.korma.geom.*
 import game.logic.mapInfo.NetGameType
 import game.logic.mapInfo.iMapInfo
@@ -377,10 +378,13 @@ class iScenPropsDlg : iBaseGameDlg {
         m_btnNetType = iNetGameTypeBtn(
             m_pMgr,
             this,
-            IRectangleInt(sx, sy + 25, 34, 34),
+            IRectangleInt(clRect.x + clRect.width - 45, clRect.y + clRect.height - 17, 40, 15),
             m_scProps.m_netGameType,
             337.toUInt(), // uid
-            (ViewState.Visible or ViewState.Enabled)
+            when(OS.isJsBrowser) {
+                true -> ViewState.Visible.v
+                false ->(ViewState.Visible or ViewState.Enabled)
+            }
         )
         AddChild(m_btnNetType)
 
