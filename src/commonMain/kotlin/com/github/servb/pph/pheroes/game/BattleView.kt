@@ -1246,6 +1246,7 @@ class iBattleToolBar : iView {
         m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_ATTACK.v)
         m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_SHOOT.v)
         m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_INFO.v)
+        m_pModeSwitch.SetTabIcon(GfxId.PDGG_ICN_PLT_HUMAN.v)
         m_pModeSwitch.SetCurrentTab(BattleNavMode.MELEE.v)
         AddChild(m_pModeSwitch)
         xpos += BattleNavMode.COUNT.v * 25
