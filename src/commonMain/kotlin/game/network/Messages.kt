@@ -13,18 +13,8 @@ import kotlinx.serialization.json.Json
 data class ServerInitMsg(val version: String);
 
 
-
 @Serializable
 data class ClientInitMsg(val action: String);
-
-
-//@Serializable
-//data class ShotMessage(
-//    @Serializable(with=IPointIntSerializer::class)
-//    val pos: IPointInt,
-//    val penalty: Int
-//);
-
 
 @Serializable
 data class Heartbeat(val v: Int)

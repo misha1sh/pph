@@ -5,21 +5,6 @@ import com.soywiz.korio.stream.readS32LE
 import com.soywiz.korio.stream.readString
 import com.soywiz.korio.stream.write32LE
 import com.soywiz.korio.stream.writeString
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-
-//suspend fun AsyncClient.readJson(): Map<*, *> {
-//    return readLine().fromJson().fastCastTo()
-//}
-//
-//suspend fun AsyncClient.writeJson(data: Map<*, *>) {
-//    writeString(data.toJson() + "\n")
-//}
-//
-//suspend fun AsyncClient.writeJson(vararg pairs: Pair<String, *>) {
-//    writeJson(mapOf(*pairs))
-//}
-//
 
 
 suspend inline fun AsyncClient.writeMsg(msg: Any) {
