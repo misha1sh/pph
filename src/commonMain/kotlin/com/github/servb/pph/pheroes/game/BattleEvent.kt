@@ -56,13 +56,21 @@ class MoveEvent : BattleEvent {
 }
 
 class EventsFabric(private val engine: iBattleEngine) {
-    fun create(battleMode: BattleNavMode, pos: IPointInt?, dir: UShort?, penalty: Int?, orient: iBattleGroup.ORIENT?): BattleEvent? {
+    fun createEntry(battleMode: BattleNavMode, pos: IPointInt?, dir: UShort?, penalty: Int?, orient: iBattleGroup.ORIENT?): iBattleView.Entry? {
         return when {
-            battleMode == BattleNavMode.INFO && pos != null && orient != null -> MoveEvent(engine, iBattleView.iMoveEntry(pos, orient))
-            battleMode == BattleNavMode.MELEE && pos != null && dir != null -> MeleeEvent(engine, iBattleView.iMeleeEntry(pos, dir))
-            battleMode == BattleNavMode.SHOOT && pos != null && penalty != null -> ShootEvent(engine, iBattleView.iShootEntry(pos, penalty))
-            battleMode == BattleNavMode.MOVE && pos != null && orient != null -> MoveEvent(engine, iBattleView.iMoveEntry(pos, orient))
+            battleMode == BattleNavMode.MELEE && pos != null && dir != null -> iBattleView.iMeleeEntry(pos, dir)
+            battleMode == BattleNavMode.SHOOT && pos != null && penalty != null -> iBattleView.iShootEntry(pos, penalty)
+            battleMode == BattleNavMode.MOVE && pos != null && orient != null -> iBattleView.iMoveEntry(pos, orient)
             else -> null
+        }
+    }
+
+    fun createFromEntry(entry: iBattleView.Entry): BattleEvent {
+        return when (entry) {
+            is iBattleView.iMoveEntry -> MoveEvent(engine, entry)
+            is iBattleView.iMeleeEntry -> MeleeEvent(engine, entry)
+            is iBattleView.iShootEntry -> ShootEvent(engine, entry)
+            else -> throw IllegalArgumentException("Unknown entry type $entry")
         }
     }
 }

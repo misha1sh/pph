@@ -1,5 +1,6 @@
 package com.github.servb.pph.network
 
+import com.github.servb.pph.pheroes.game.iBattleView
 import com.soywiz.korma.geom.IPointInt
 import com.soywiz.korma.geom.PointInt
 import kotlinx.serialization.*
@@ -20,12 +21,12 @@ data class ServerInitMsg(val version: String);
 data class ClientInitMsg(val action: String);
 
 
-@Serializable
-data class ShotMessage(
-    @Serializable(with=IPointIntSerializer::class)
-    val pos: IPointInt,
-    val penalty: Int
-);
+//@Serializable
+//data class ShotMessage(
+//    @Serializable(with=IPointIntSerializer::class)
+//    val pos: IPointInt,
+//    val penalty: Int
+//);
 
 
 @Serializable
@@ -36,22 +37,26 @@ data class ServerStartGame(val v: Unit)
 
 fun serializeCode(message: Any): Pair<Int, String> {
     return when (message) {
-        is ShotMessage -> Pair(1, Json.encodeToString(message))
         is ServerInitMsg -> Pair(2, Json.encodeToString(message))
         is ClientInitMsg -> Pair(3, Json.encodeToString(message))
         is Heartbeat -> Pair(4, Json.encodeToString(message))
         is ServerStartGame -> Pair(5, Json.encodeToString(message))
+        is iBattleView.iShootEntry -> Pair(6, Json.encodeToString(message))
+        is iBattleView.iMoveEntry -> Pair(7, Json.encodeToString(message))
+        is iBattleView.iMeleeEntry -> Pair(8, Json.encodeToString(message))
         else -> throw IllegalArgumentException("`$message` is not supported")
     }
 }
 
 fun deserializeCode(code: Int, json: String): Any {
     return when (code) {
-        1 -> Json.decodeFromString<ShotMessage>(json)
         2 -> Json.decodeFromString<ServerInitMsg>(json)
         3 -> Json.decodeFromString<ClientInitMsg>(json)
         4 -> Json.decodeFromString<Heartbeat>(json)
         5 -> Json.decodeFromString<ServerStartGame>(json)
+        6 -> Json.decodeFromString<iBattleView.iShootEntry>(json)
+        7 -> Json.decodeFromString<iBattleView.iMoveEntry>(json)
+        8 -> Json.decodeFromString<iBattleView.iMeleeEntry>(json)
         else -> throw IllegalArgumentException("Invalid message code $code")
     }
 }

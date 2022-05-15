@@ -20,6 +20,7 @@ import com.soywiz.klogger.Logger
 import com.soywiz.korio.lang.format
 import com.soywiz.korma.geom.IPointInt
 import com.soywiz.korma.geom.PointInt
+import kotlinx.coroutines.channels.Channel
 
 /* Combat rules:
 How the damage is counted?
@@ -764,13 +765,13 @@ class iBattleEngine {
     private var m_iRound: SizeT
     private val m_turnSeq: iTurnSeq
     private val m_ActList: iBattleActList = iBattleActList()
-    private val m_BattleNavEvents: MutableList<BattleEvent> = mutableListOf()
+    private val m_BattleNavEvents = Channel<BattleEvent>(Channel.UNLIMITED)
     private var m_pCurAct: iBattleAct?
 
     private val m_aArmy: iBattleArmy
     private val m_dArmy: iBattleArmy
 
-    private val m_controller: BattleController
+    private val m_controller: BattleEngineEventsController
 
     //    private val m_obsMap: iBattleMap  // todo
     private val m_pWrapper: iBattleWrapper
@@ -789,10 +790,10 @@ class iBattleEngine {
         m_bAutoBattle = false
 //        m_obsMap.FillMem()  // todo
 
-        m_controller = BattleController(this)
+        m_controller = BattleEngineEventsController(this)
     }
 
-    fun Controller() : BattleController = m_controller
+    fun Controller() : BattleEngineEventsController = m_controller
 
     // battle initialization
     fun BeginBattle(bi: iBattleInfo) {
@@ -1074,7 +1075,7 @@ else if ( (bState & 2) == 0 ) return BR_DEFENDER_WIN;
     fun AArmy(): iBattleArmy = m_aArmy
     fun DArmy(): iBattleArmy = m_dArmy
     fun ActionCount(): SizeT = m_ActList.Count()
-    fun BattleNavEvents(): MutableList<BattleEvent> = m_BattleNavEvents
+    fun BattleNavEvents(): Channel<BattleEvent> = m_BattleNavEvents
     fun TurnSeq(): iTurnSeq = m_turnSeq
 
 //    fun CastleFort()  // todo

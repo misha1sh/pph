@@ -2,6 +2,7 @@ package com.github.servb.pph.pheroes.game
 
 import com.github.servb.pph.config.SurfaceType
 import com.github.servb.pph.gxlib.*
+import com.github.servb.pph.network.IPointIntSerializer
 import com.github.servb.pph.pheroes.common.GfxId
 import com.github.servb.pph.pheroes.common.IsoMetric
 import com.github.servb.pph.pheroes.common.TextResId
@@ -15,6 +16,7 @@ import com.github.servb.pph.util.asSize
 import com.github.servb.pph.util.helpertype.*
 import com.soywiz.korio.lang.format
 import com.soywiz.korma.geom.*
+import kotlinx.serialization.Serializable
 import kotlin.properties.Delegates
 
 class iCreatInfoPopup : iFramePopupView {
@@ -469,9 +471,11 @@ class iBattleView : iChildGameView {
     interface Entry {
     }
 
+    @Serializable
     class iShootEntry : Entry {
 
         val m_penalty: Int
+        @Serializable(with= IPointIntSerializer::class)
         val m_pos: IPointInt
 
         constructor(pos: IPointInt, penalty: Int) {
@@ -480,8 +484,9 @@ class iBattleView : iChildGameView {
         }
     }
 
+    @Serializable
     class iMeleeEntry : Entry {
-
+        @Serializable(with=IPointIntSerializer::class)
         val m_pos: IPointInt
         var dir: UShort
 
@@ -491,8 +496,9 @@ class iBattleView : iChildGameView {
         }
     }
 
+    @Serializable
     class iMoveEntry : Entry {
-
+        @Serializable(with=IPointIntSerializer::class)
         val m_pos: IPointInt
         var orient: iBattleGroup.ORIENT
 
@@ -691,13 +697,13 @@ class iBattleView : iChildGameView {
         val eventsFabric = EventsFabric(m_pBattle!!.Engine())
         val pCurCreatGroup = m_pBattle!!.Engine().TurnSeq().CurUnit() as? iBattleUnit_CreatGroup
 
-        val event = eventsFabric.create(m_battleMode,
+        val eventEntry = eventsFabric.createEntry(m_battleMode,
                 m_pShootTrack?.m_pos,
                 UShort.MAX_VALUE,
                 m_pShootTrack?.m_penalty,
                 pCurCreatGroup?.GetCreatGroup()?.Orient())
-        if (event != null) {
-            m_pBattle?.Engine()?.BattleNavEvents()?.add(event)
+        if (eventEntry != null) {
+            m_pBattle?.Engine()?.Controller()?.SendMessage(eventEntry)
         }
 
         if (SpellTracking()) {
@@ -790,10 +796,6 @@ class iBattleView : iChildGameView {
     }
 
     override suspend fun Process(t: Double): Boolean {
-        if (m_pBattle!!.Engine().ActionCount() == 0) {
-            m_pBattle!!.Engine().Controller().ProcessMessages()
-        }
-
         // actions
         if (m_pBattle!!.Engine().ActionCount() != 0) {
             if (!m_bAni) {
@@ -826,13 +828,11 @@ class iBattleView : iChildGameView {
             }
         }
 
-        val battleNavEvent = m_pBattle!!.Engine().BattleNavEvents()
-                .firstOrNull()
+        m_pBattle!!.Engine().Controller().ProcessMessages()
 
-        if (battleNavEvent != null) {
-            battleNavEvent.Process()
-            m_pBattle!!.Engine().BattleNavEvents().remove(battleNavEvent)
-        }
+        m_pBattle!!.Engine().BattleNavEvents()
+            .tryReceive().getOrNull()
+            ?.Process()
 
         // events
         // todo
@@ -1250,7 +1250,7 @@ class iBattleToolBar : iView {
         m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_ATTACK.v)
         m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_SHOOT.v)
         m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_INFO.v)
-        m_pModeSwitch.SetTabIcon(GfxId.PDGG_ICN_PLT_HUMAN.v)
+        m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_PLAYERS_COUNT.v)
         m_pModeSwitch.SetCurrentTab(BattleNavMode.MELEE.v)
         AddChild(m_pModeSwitch)
         xpos += BattleNavMode.COUNT.v * 25

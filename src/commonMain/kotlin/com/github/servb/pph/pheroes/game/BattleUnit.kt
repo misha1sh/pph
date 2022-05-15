@@ -22,6 +22,7 @@ import com.github.servb.pph.util.helpertype.getByValue
 import com.soywiz.korio.lang.format
 import com.soywiz.korma.geom.IPointInt
 import com.soywiz.korma.geom.PointInt
+import kotlinx.serialization.Serializable
 import kotlin.math.absoluteValue
 import kotlin.math.sign
 import kotlin.random.Random
@@ -31,6 +32,7 @@ val TAIL_OFFSET = listOf(-1, +1)
 
 class iBattleGroup {
 
+    @Serializable
     enum class ORIENT(override val v: Int) : UniqueValueEnum {
 
         Right(0), Left(1),
