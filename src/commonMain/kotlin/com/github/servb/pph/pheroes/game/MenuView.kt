@@ -1,6 +1,7 @@
 package com.github.servb.pph.pheroes.game
 
 import com.github.servb.pph.gxlib.*
+import com.github.servb.pph.network.LocalNetManager
 import com.github.servb.pph.pheroes.common.TextResId
 import com.github.servb.pph.util.asRectangle
 import com.github.servb.pph.util.helpertype.and
@@ -186,12 +187,21 @@ class iMenuView private constructor() : iChildGameView(false, CHILD_VIEW.UNDEFIN
                         val scenProps = sldlg.SelScen()
                         val spdlg = iScenPropsDlg(gApp.ViewMgr(), scenProps, false)
                         if (spdlg.DoModal() == DLG_RETCODE.OK.v) {
+                            if (gGame.getLocalNetManager() != null) {
+                                println("Running online by local net")
+                            } else {
+                                println("Running local game")
+                            }
+                            gGame.getLocalNetManager()?.run()
+
                             scenProps.ReorderPlayers()
                             val a = iHero()
                             val d = iHero()
                             val bi = iBattleInfo(a, d)
                             gGame.BeginBattle(bi)
 //                            gGame.StartNewGame(scenProps, true)  // todo
+
+//                            gGame.getLocalNetManager()?.close()
                             break
                         }
                     } else {

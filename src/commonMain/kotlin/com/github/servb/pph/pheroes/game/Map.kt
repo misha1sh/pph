@@ -7,6 +7,7 @@ import com.github.servb.pph.gxlib.ReadS8
 import com.github.servb.pph.gxlib.ReadU16
 import com.github.servb.pph.gxlib.ReadU32
 import com.github.servb.pph.gxlib.ReadU8
+import com.github.servb.pph.network.LocalNetManager
 import com.github.servb.pph.pheroes.common.DeserializePoint
 import com.github.servb.pph.pheroes.common.DeserializeString
 import com.github.servb.pph.pheroes.common.castle.CastleType
@@ -20,6 +21,12 @@ import com.soywiz.korma.geom.IPointInt
 import com.soywiz.korma.geom.ISizeInt
 import kotlin.properties.Delegates
 
+enum class NetGameType {
+    Local,
+    Client,
+    Server
+}
+
 class iMapInfo {
 
     enum class GameMode(override val v: Int) : UniqueValueEnum {
@@ -27,8 +34,7 @@ class iMapInfo {
         SPLAYER(1),
         HOTSEAT(2),
     }
-
-    class iPlayerInfo {
+        class iPlayerInfo {
 
         lateinit var m_Minerals: MineralSetC
         var m_Id: PlayerId
@@ -48,6 +54,11 @@ class iMapInfo {
             m_Nation = ntype
         }
     }
+
+
+
+    var m_netGameType = NetGameType.Local
+    var m_netManager: LocalNetManager? = null
 
     var m_bNewGame: Boolean by Delegates.notNull()
     var m_saveTime: UInt by Delegates.notNull()

@@ -101,6 +101,7 @@ class iGXApp {
     private val m_LastUpdate by lazy { m_Timer.GetCurTime() }
 
     suspend fun Cycle(): Boolean {
+        // event handling root
         while (m_Input.EntryCount() != 0) {
             m_viewMgr.ProcessMessage(m_Input.Get())
         }

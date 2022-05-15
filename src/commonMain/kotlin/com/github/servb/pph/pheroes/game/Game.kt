@@ -4,6 +4,7 @@ import com.github.servb.pph.gxlib.IGame
 import com.github.servb.pph.gxlib.IViewCmdHandler
 import com.github.servb.pph.gxlib.iKbdKey
 import com.github.servb.pph.gxlib.iTopmostView
+import com.github.servb.pph.network.LocalNetManager
 import com.github.servb.pph.pheroes.common.common.PlayerId
 import com.github.servb.pph.pheroes.common.common.PlayerType
 import com.github.servb.pph.util.helpertype.UndefinedCountValueEnum
@@ -65,6 +66,8 @@ class Game : IGame {
     //    private val m_itemMgr: iItemMgr = iItemMgr()  // todo
 //    private val m_Map: iGameWorld = iGameWorld()  // todo
 //    private val m_soundMap: iSoundMap = iSoundMap()  // todo
+    private var m_localNetManager: LocalNetManager?
+
     private var m_pBattle: iBattleWrapper?
     private var m_bInited: Boolean
     private var m_bStarted: Boolean
@@ -81,6 +84,7 @@ class Game : IGame {
         m_bStarted = false
         m_tActView = iChildGameView.CHILD_VIEW.UNDEFINED
 //        m_pMainView = null  // todo
+        m_localNetManager = null;
         m_pBattle = null
         m_bGoToMainMenu = false
         m_hmChannel = -1
@@ -91,6 +95,15 @@ class Game : IGame {
     fun `$destruct`() {
         Cleanup()
     }
+
+    fun setLocalNetManager(localNetManager: LocalNetManager?) {
+        m_localNetManager = localNetManager
+    }
+
+    fun getLocalNetManager(): LocalNetManager? {
+        return m_localNetManager
+    }
+
 
     suspend fun Init(): Boolean {
         check(!m_bInited)
