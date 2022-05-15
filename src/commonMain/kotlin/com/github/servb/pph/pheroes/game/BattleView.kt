@@ -662,6 +662,8 @@ class iBattleView : iChildGameView {
             return
         }
 
+        val eventsFabric = EventsFabric()
+        val create = eventsFabric.create(m_battleMode)
         m_pBattle?.Engine()?.BattleNavEvents()?.add(m_battleMode)
 
 //        if (SpellTracking()) {
