@@ -238,7 +238,8 @@ class iBarTabSwitch : iTabbedSwitch {
     }
 
     override fun ComposeTabItem(idx: Int, itemState: Int, rect: IRectangleInt) {
-        ComposeIconButton(gApp.Surface(), rect, itemState, m_Tabs[idx])
+        var tab = m_Tabs.getOrElse(idx) { m_Tabs.last() }
+        ComposeIconButton(gApp.Surface(), rect, itemState, tab)
         if (!IsEnabled()) gApp.Surface().Darken25Rect(rect)
     }
 }

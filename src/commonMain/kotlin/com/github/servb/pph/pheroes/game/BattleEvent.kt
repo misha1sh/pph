@@ -56,13 +56,13 @@ class MoveEvent : BattleEvent {
 }
 
 class EventsFabric(private val engine: iBattleEngine) {
-    fun create(battleMode: BattleNavMode, pos: IPointInt?, dir: UShort?, penalty: Int?, orient: iBattleGroup.ORIENT?): BattleEvent {
+    fun create(battleMode: BattleNavMode, pos: IPointInt?, dir: UShort?, penalty: Int?, orient: iBattleGroup.ORIENT?): BattleEvent? {
         return when {
             battleMode == BattleNavMode.INFO && pos != null && orient != null -> MoveEvent(engine, iBattleView.iMoveEntry(pos, orient))
             battleMode == BattleNavMode.MELEE && pos != null && dir != null -> MeleeEvent(engine, iBattleView.iMeleeEntry(pos, dir))
             battleMode == BattleNavMode.SHOOT && pos != null && penalty != null -> ShootEvent(engine, iBattleView.iShootEntry(pos, penalty))
             battleMode == BattleNavMode.MOVE && pos != null && orient != null -> MoveEvent(engine, iBattleView.iMoveEntry(pos, orient))
-            else -> throw RuntimeException()
+            else -> null
         }
     }
 }

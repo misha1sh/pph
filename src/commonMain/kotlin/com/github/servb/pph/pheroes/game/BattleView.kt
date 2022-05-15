@@ -696,17 +696,20 @@ class iBattleView : iChildGameView {
                 UShort.MAX_VALUE,
                 m_pShootTrack?.m_penalty,
                 pCurCreatGroup?.GetCreatGroup()?.Orient())
-        m_pBattle?.Engine()?.BattleNavEvents()?.add(event)
+        if (event != null) {
+            m_pBattle?.Engine()?.BattleNavEvents()?.add(event)
+        }
 
-//        if (SpellTracking()) {
-//            EndSpellTrack(m_trackCell)
-//            Invalidate()
-//        } else if (m_pCreatInfoPopup != null || m_battleMode == BattleNavMode.INFO || m_bForceInfo) {
-//            m_pCreatInfoPopup?.let {
-//                RemoveChild(it)
-//                it.HidePopup()
-//                m_pCreatInfoPopup = null
-//            }
+        if (SpellTracking()) {
+            EndSpellTrack(m_trackCell)
+            Invalidate()
+        } else if (m_pCreatInfoPopup != null || m_battleMode == BattleNavMode.INFO || m_bForceInfo) {
+            m_pCreatInfoPopup?.let {
+                RemoveChild(it)
+                it.HidePopup()
+                m_pCreatInfoPopup = null
+            }
+        }
 //        } else if (m_battleMode == BattleNavMode.MELEE /*&& m_pMeleeTrack*/) {
 //            // todo
 //        } else if (m_battleMode == BattleNavMode.SHOOT) {
@@ -729,12 +732,12 @@ class iBattleView : iChildGameView {
 //                }
 //            }
 //        }
-//        m_trackCell.setTo(cInvalidPoint)
-//        m_trackPos.setTo(cInvalidPoint)
-//        if (m_toolTip.isNotEmpty()) {
-//            m_toolTip = ""
-//        }
-//        Invalidate()
+        m_trackCell.setTo(cInvalidPoint)
+        m_trackPos.setTo(cInvalidPoint)
+        if (m_toolTip.isNotEmpty()) {
+            m_toolTip = ""
+        }
+        Invalidate()
     }
 
     override suspend fun OnMouseTrack(pos: IPointInt) {
