@@ -272,7 +272,8 @@ enum class BattleNavMode(override val v: Int) : CountValueEnum, UniqueValueEnum 
     MELEE(0),
     SHOOT(1),
     INFO(2),
-    COUNT(3),
+    MOVE(3),
+    COUNT(4),
 }
 
 class iBatObstEntry {
@@ -468,7 +469,7 @@ class iBattleView : iChildGameView {
     interface Entry {
     }
 
-    class iShootEntry : Entry{
+    class iShootEntry : Entry {
 
         val m_penalty: Int
         val m_pos: IPointInt
@@ -479,7 +480,7 @@ class iBattleView : iChildGameView {
         }
     }
 
-    class iMeleeEntry : Entry{
+    class iMeleeEntry : Entry {
 
         val m_pos: IPointInt
         var dir: UShort
@@ -490,7 +491,7 @@ class iBattleView : iChildGameView {
         }
     }
 
-    class iMoveEntry : Entry{
+    class iMoveEntry : Entry {
 
         val m_pos: IPointInt
         var orient: iBattleGroup.ORIENT
@@ -687,9 +688,15 @@ class iBattleView : iChildGameView {
             return
         }
 
-        val eventsFabric = EventsFabric()
-        val create = eventsFabric.create(m_battleMode)
-        m_pBattle?.Engine()?.BattleNavEvents()?.add(m_battleMode)
+        val eventsFabric = EventsFabric(m_pBattle!!.Engine())
+        val pCurCreatGroup = m_pBattle!!.Engine().TurnSeq().CurUnit() as? iBattleUnit_CreatGroup
+
+        val event = eventsFabric.create(m_battleMode,
+                m_pShootTrack?.m_pos,
+                UShort.MAX_VALUE,
+                m_pShootTrack?.m_penalty,
+                pCurCreatGroup?.GetCreatGroup()?.Orient())
+        m_pBattle?.Engine()?.BattleNavEvents()?.add(event)
 
 //        if (SpellTracking()) {
 //            EndSpellTrack(m_trackCell)
@@ -816,8 +823,7 @@ class iBattleView : iChildGameView {
                 .firstOrNull()
 
         if (battleNavEvent != null) {
-            println(battleNavEvent.name)
-            println(123)
+            battleNavEvent.Process()
             m_pBattle!!.Engine().BattleNavEvents().remove(battleNavEvent)
         }
 

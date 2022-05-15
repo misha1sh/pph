@@ -764,7 +764,7 @@ class iBattleEngine {
     private var m_iRound: SizeT
     private val m_turnSeq: iTurnSeq
     private val m_ActList: iBattleActList = iBattleActList()
-    private val m_BattleNavEvents: MutableList<BattleNavMode> = mutableListOf()
+    private val m_BattleNavEvents: MutableList<BattleEvent> = mutableListOf()
     private var m_pCurAct: iBattleAct?
 
     private val m_aArmy: iBattleArmy
@@ -1074,7 +1074,7 @@ else if ( (bState & 2) == 0 ) return BR_DEFENDER_WIN;
     fun AArmy(): iBattleArmy = m_aArmy
     fun DArmy(): iBattleArmy = m_dArmy
     fun ActionCount(): SizeT = m_ActList.Count()
-    fun BattleNavEvents(): MutableList<BattleNavMode> = m_BattleNavEvents
+    fun BattleNavEvents(): MutableList<BattleEvent> = m_BattleNavEvents
     fun TurnSeq(): iTurnSeq = m_turnSeq
 
 //    fun CastleFort()  // todo
