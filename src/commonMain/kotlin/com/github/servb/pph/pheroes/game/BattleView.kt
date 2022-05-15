@@ -465,7 +465,10 @@ private val BATTLE_POPUP_BOUND = IRectangleInt(2, 2, 316, 216)
 
 class iBattleView : iChildGameView {
 
-    class iShootEntry {
+    interface Entry {
+    }
+
+    class iShootEntry : Entry{
 
         val m_penalty: Int
         val m_pos: IPointInt
@@ -473,6 +476,28 @@ class iBattleView : iChildGameView {
         constructor(pos: IPointInt, penalty: Int) {
             m_pos = PointInt(pos)
             m_penalty = penalty
+        }
+    }
+
+    class iMeleeEntry : Entry{
+
+        val m_pos: IPointInt
+        var dir: UShort
+
+        constructor(pos: IPointInt, dir: UShort) {
+            m_pos = PointInt(pos)
+            this.dir = dir
+        }
+    }
+
+    class iMoveEntry : Entry{
+
+        val m_pos: IPointInt
+        var orient: iBattleGroup.ORIENT
+
+        constructor(pos: IPointInt, orient: iBattleGroup.ORIENT) {
+            m_pos = PointInt(pos)
+            this.orient = orient
         }
     }
 
