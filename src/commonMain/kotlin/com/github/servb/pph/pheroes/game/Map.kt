@@ -4,6 +4,7 @@ import com.github.servb.pph.gxlib.ReadS8
 import com.github.servb.pph.gxlib.ReadU16
 import com.github.servb.pph.gxlib.ReadU32
 import com.github.servb.pph.gxlib.ReadU8
+import com.github.servb.pph.network.LocalNetManager
 import com.github.servb.pph.pheroes.common.DeserializePoint
 import com.github.servb.pph.pheroes.common.DeserializeString
 import com.github.servb.pph.pheroes.common.castle.CastleType
@@ -54,6 +55,7 @@ class iMapInfo {
 
 
     var m_netGameType = NetGameType.Local
+    var m_netManager: LocalNetManager? = null
 
     var m_bNewGame: Boolean by Delegates.notNull()
     var m_saveTime: UInt by Delegates.notNull()

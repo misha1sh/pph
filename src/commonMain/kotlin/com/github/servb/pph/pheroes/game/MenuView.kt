@@ -187,24 +187,21 @@ class iMenuView private constructor() : iChildGameView(false, CHILD_VIEW.UNDEFIN
                         val scenProps = sldlg.SelScen()
                         val spdlg = iScenPropsDlg(gApp.ViewMgr(), scenProps, false)
                         if (spdlg.DoModal() == DLG_RETCODE.OK.v) {
-                            var netManager: LocalNetManager? = when(scenProps.m_netGameType) {
-                                NetGameType.Server -> LocalNetManager.hostServer().getOrThrow()
-                                NetGameType.Client -> LocalNetManager.connectAsClient("127.0.0.1").getOrThrow()
-                                NetGameType.Local  -> null
+                            if (gGame.getLocalNetManager() != null) {
+                                println("Running online by local net")
+                            } else {
+                                println("Running local game")
                             }
-
-
-                            netManager?.run()
-                            gGame.setLocalNetManager(netManager)
+                            gGame.getLocalNetManager()?.run()
 
                             scenProps.ReorderPlayers()
                             val a = iHero()
                             val d = iHero()
                             val bi = iBattleInfo(a, d)
                             gGame.BeginBattle(bi)
-
-                            netManager?.close()
 //                            gGame.StartNewGame(scenProps, true)  // todo
+
+//                            gGame.getLocalNetManager()?.close()
                             break
                         }
                     } else {

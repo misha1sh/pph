@@ -28,12 +28,19 @@ data class ShotMessage(
 );
 
 
+@Serializable
+data class Heartbeat(val v: Int)
+
+@Serializable
+data class ServerStartGame(val v: Unit)
 
 fun serializeCode(message: Any): Pair<Int, String> {
     return when (message) {
         is ShotMessage -> Pair(1, Json.encodeToString(message))
         is ServerInitMsg -> Pair(2, Json.encodeToString(message))
         is ClientInitMsg -> Pair(3, Json.encodeToString(message))
+        is Heartbeat -> Pair(4, Json.encodeToString(message))
+        is ServerStartGame -> Pair(5, Json.encodeToString(message))
         else -> throw IllegalArgumentException("`$message` is not supported")
     }
 }
@@ -43,6 +50,8 @@ fun deserializeCode(code: Int, json: String): Any {
         1 -> Json.decodeFromString<ShotMessage>(json)
         2 -> Json.decodeFromString<ServerInitMsg>(json)
         3 -> Json.decodeFromString<ClientInitMsg>(json)
+        4 -> Json.decodeFromString<Heartbeat>(json)
+        5 -> Json.decodeFromString<ServerStartGame>(json)
         else -> throw IllegalArgumentException("Invalid message code $code")
     }
 }
