@@ -272,7 +272,8 @@ enum class BattleNavMode(override val v: Int) : CountValueEnum, UniqueValueEnum 
     MELEE(0),
     SHOOT(1),
     INFO(2),
-    COUNT(3),
+    MOVE(3),
+    COUNT(4),
 }
 
 class iBatObstEntry {
@@ -465,7 +466,10 @@ private val BATTLE_POPUP_BOUND = IRectangleInt(2, 2, 316, 216)
 
 class iBattleView : iChildGameView {
 
-    class iShootEntry {
+    interface Entry {
+    }
+
+    class iShootEntry : Entry {
 
         val m_penalty: Int
         val m_pos: IPointInt
@@ -473,6 +477,28 @@ class iBattleView : iChildGameView {
         constructor(pos: IPointInt, penalty: Int) {
             m_pos = PointInt(pos)
             m_penalty = penalty
+        }
+    }
+
+    class iMeleeEntry : Entry {
+
+        val m_pos: IPointInt
+        var dir: UShort
+
+        constructor(pos: IPointInt, dir: UShort) {
+            m_pos = PointInt(pos)
+            this.dir = dir
+        }
+    }
+
+    class iMoveEntry : Entry {
+
+        val m_pos: IPointInt
+        var orient: iBattleGroup.ORIENT
+
+        constructor(pos: IPointInt, orient: iBattleGroup.ORIENT) {
+            m_pos = PointInt(pos)
+            this.orient = orient
         }
     }
 
@@ -662,6 +688,18 @@ class iBattleView : iChildGameView {
             return
         }
 
+        val eventsFabric = EventsFabric(m_pBattle!!.Engine())
+        val pCurCreatGroup = m_pBattle!!.Engine().TurnSeq().CurUnit() as? iBattleUnit_CreatGroup
+
+        val event = eventsFabric.create(m_battleMode,
+                m_pShootTrack?.m_pos,
+                UShort.MAX_VALUE,
+                m_pShootTrack?.m_penalty,
+                pCurCreatGroup?.GetCreatGroup()?.Orient())
+        if (event != null) {
+            m_pBattle?.Engine()?.BattleNavEvents()?.add(event)
+        }
+
         if (SpellTracking()) {
             EndSpellTrack(m_trackCell)
             Invalidate()
@@ -671,28 +709,29 @@ class iBattleView : iChildGameView {
                 it.HidePopup()
                 m_pCreatInfoPopup = null
             }
-        } else if (m_battleMode == BattleNavMode.MELEE /*&& m_pMeleeTrack*/) {
-            // todo
-        } else if (m_battleMode == BattleNavMode.SHOOT) {
-            if (m_pShootTrack != null) {
-                //shot
-//                m_pBattle!!.Engine().Shot(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
-//                BeginAni()
-                 m_pBattle!!.Engine().Controller().ShotAction(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
-                m_pShootTrack = null
-            }
-        } else {
-            val pCurCreatGroup = m_pBattle!!.Engine().TurnSeq().CurUnit() as? iBattleUnit_CreatGroup
-            if (pCurCreatGroup != null) {
-                val nCell = Screen2Map(pos)
-                if (nCell == m_trackCell && pCurCreatGroup.GetCreatGroup()
-                        .CanMove(nCell.x, nCell.y) && !pCurCreatGroup.GetCreatGroup().IsGroupCell(nCell)
-                ) {
-                    m_pBattle!!.Engine().Move(nCell, pCurCreatGroup.GetCreatGroup().Orient())
-                    BeginAni()
-                }
-            }
         }
+//        } else if (m_battleMode == BattleNavMode.MELEE /*&& m_pMeleeTrack*/) {
+//            // todo
+//        } else if (m_battleMode == BattleNavMode.SHOOT) {
+//            if (m_pShootTrack != null) {
+//                //shot
+//                // m_pBattle!!.Engine().Shot(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
+////              //  BeginAni()
+//                m_pBattle!!.Engine().Controller().ShotAction(m_pShootTrack!!.m_pos, m_pShootTrack!!.m_penalty)
+//                m_pShootTrack = null
+//            }
+//        } else {
+//            val pCurCreatGroup = m_pBattle!!.Engine().TurnSeq().CurUnit() as? iBattleUnit_CreatGroup
+//            if (pCurCreatGroup != null) {
+//                val nCell = Screen2Map(pos)
+//                if (nCell == m_trackCell && pCurCreatGroup.GetCreatGroup()
+//                        .CanMove(nCell.x, nCell.y) && !pCurCreatGroup.GetCreatGroup().IsGroupCell(nCell)
+//                ) {
+//                    m_pBattle!!.Engine().Move(nCell, pCurCreatGroup.GetCreatGroup().Orient())
+//                    BeginAni()
+//                }
+//            }
+//        }
         m_trackCell.setTo(cInvalidPoint)
         m_trackPos.setTo(cInvalidPoint)
         if (m_toolTip.isNotEmpty()) {
@@ -785,6 +824,14 @@ class iBattleView : iChildGameView {
                     Invalidate()
                 }
             }
+        }
+
+        val battleNavEvent = m_pBattle!!.Engine().BattleNavEvents()
+                .firstOrNull()
+
+        if (battleNavEvent != null) {
+            battleNavEvent.Process()
+            m_pBattle!!.Engine().BattleNavEvents().remove(battleNavEvent)
         }
 
         // events
@@ -1203,6 +1250,7 @@ class iBattleToolBar : iView {
         m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_ATTACK.v)
         m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_SHOOT.v)
         m_pModeSwitch.SetTabIcon(GfxId.PDGG_BTN_INFO.v)
+        m_pModeSwitch.SetTabIcon(GfxId.PDGG_ICN_PLT_HUMAN.v)
         m_pModeSwitch.SetCurrentTab(BattleNavMode.MELEE.v)
         AddChild(m_pModeSwitch)
         xpos += BattleNavMode.COUNT.v * 25
