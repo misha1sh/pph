@@ -1,0 +1,12 @@
+smal:
+    v: 0
+    size: 32
+medium:
+    v: 1
+    size: 64
+large:
+    v: 2
+    size: 128
+extra_large:
+    v: 3
+    size: 256

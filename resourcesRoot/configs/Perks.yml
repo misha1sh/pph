@@ -1,0 +1,65 @@
+NONE:
+    v: 0
+DOUBLESHOT:
+    v: 1
+    description: Shots twice (rangers, grand elves, etc)
+DOUBLEATTACK:
+    v: 2
+    description: Attack the target twice (paladins, wolves, etc)
+NOMELEEPENALTY:
+    v: 3
+    description: Scores full damage even at melee
+NONRETALATTACK:
+    v: 4
+    description: Non retaliated attack (vampires, rogues, sprites, hydras, etc)
+RETALTOALL:
+    v: 5
+    description: Retaliates against every attack (griffins)
+TWOHEXATTACK:
+    v: 6
+    description: Two-hex attack (dragons)
+ADJACENTATTACK:
+    v: 7
+    description: Attacks all adjacent enemies (hydras)
+LICHSHOOT:
+    v: 8
+    description: Range attack affects adjacent hexes except undeads (Liches)
+UNDEAD:
+    v: 9
+    description: All necropolis creatures + ghosts
+LIFELESS:
+    v: 10
+    description: Golems, gargoyles, elementals
+REGENERATES:
+    v: 11
+    description: Trolls
+JOUSTING:
+    v: 12
+    description: Cavalry
+AIRMAGICIMM:
+    v: 13
+    description: Air elementals
+EARTHMAGICIMM:
+    v: 14
+    description: Earth elementals
+FIREMAGICIMM:
+    v: 15
+    description: Fire elementals, Phoenix
+WATERMAGICIMM:
+    v: 16
+    description: Water elementals
+PROCRESIST40:
+    v: 17
+    description: 40% magic resistance (dwarves)
+QUARTERDMG:
+    v: 18
+    description: Receives only quarter damage from damage spells (golems)
+GHOST:
+    v: 19
+    description: Ghost perk
+DOHALF:
+    v: 20
+    description: Genie perk
+DRAINLIFES:
+    v: 21
+    description: Drains life (vampires)

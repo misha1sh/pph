@@ -1,0 +1,92 @@
+undefined:
+    v: 0
+easy:
+    v: 1
+    human:
+        gold: 15000
+        ore: 30
+        wood: 30
+        mercury: 15
+        gem: 15
+        crystal: 15
+        sulfur: 15
+    computer:
+        gold: 2500
+        ore: 5
+        wood: 5
+        mercury: 2
+        gem: 2
+        crystal: 2
+        sulfur: 2
+normal:
+    v: 2
+    human:
+        gold: 10000
+        ore: 20
+        wood: 20
+        mercury: 10
+        gem: 10
+        crystal: 10
+        sulfur: 10
+    computer:
+        gold: 5000
+        ore: 10
+        wood: 10
+        mercury: 5
+        gem: 5
+        crystal: 5
+        sulfur: 5
+hard:
+    v: 3
+    human:
+        gold: 5000
+        ore: 10
+        wood: 10
+        mercury: 5
+        gem: 5
+        crystal: 5
+        sulfur: 5
+    computer:
+        gold: 15000
+        ore: 30
+        wood: 30
+        mercury: 15
+        gem: 15
+        crystal: 15
+        sulfur: 15
+expert:
+    v: 4
+    human:
+        gold: 2500
+        ore: 5
+        wood: 5
+        mercury: 2
+        gem: 2
+        crystal: 2
+        sulfur: 2
+    computer:
+        gold: 25000
+        ore: 50
+        wood: 50
+        mercury: 25
+        gem: 25
+        crystal: 25
+        sulfur: 25
+impossible:
+    v: 5
+    human:
+        gold: 0
+        ore: 0
+        wood: 0
+        mercury: 0
+        gem: 0
+        crystal: 0
+        sulfur: 0
+    computer:
+        gold: 50000
+        ore: 80
+        wood: 80
+        mercury: 40
+        gem: 40
+        crystal: 40
+        sulfur: 40
