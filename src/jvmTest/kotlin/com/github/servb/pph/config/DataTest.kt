@@ -82,4 +82,83 @@ class DataTest : StringSpec({
         surfaceType.moveCost shouldBe 7
         surfaceType.color shouldBe RGB16(255, 0, 255)
     }
+
+    "CreatureType" {
+        val rootVfs =
+            resourcesVfs["resources.zip"].readAll().openAsync()
+                .openAsZip(caseSensitive = false)
+        Data.init(rootVfs)
+
+        val creatureType = CreatureType(linkedMapOf(
+            "v" to 4,
+            "descriptor" to linkedMapOf(
+                "perks" to arrayListOf<String>(),
+                "level" to 1,
+                "nation" to "HIGHMEN",
+                "attack" to 4,
+                "defence" to 5,
+                "speed" to 7,
+                "size" to 34,
+                "transType" to "WALK",
+                "shots" to 435,
+                "hits" to 42,
+                "damage_min" to 34,
+                "damage_max" to 61,
+                "cost" to linkedMapOf(
+                    "gold" to 1,
+                    "ore" to 0,
+                    "wood" to 23,
+                    "mercury" to 235,
+                    "gem" to 2355,
+                    "crystal" to 11,
+                    "sulfur" to 233
+                ),
+                "growth" to 333,
+                "pidx" to 222,
+            ),
+        ))
+        creatureType.v shouldBe 4
+        creatureType.descriptor!!.perks shouldBe 0
+        creatureType.descriptor!!.level shouldBe 1
+        creatureType.descriptor!!.nation shouldBe Data.nationTypes!!.HIGHMEN
+        creatureType.descriptor!!.attack shouldBe 4
+        creatureType.descriptor!!.defence shouldBe 5
+        creatureType.descriptor!!.speed shouldBe 7
+        creatureType.descriptor!!.size shouldBe 34
+        creatureType.descriptor!!.shots shouldBe 435
+        creatureType.descriptor!!.hits shouldBe 42
+        creatureType.descriptor!!.damage_min shouldBe 34
+        creatureType.descriptor!!.damage_max shouldBe 61
+        creatureType.descriptor!!.growth shouldBe 333
+        creatureType.descriptor!!.pidx shouldBe 222
+    }
+
+    "DifficultyLevel" {
+        val difficultyLevel = DifficultyLevel(
+            linkedMapOf(
+                "v" to 5,
+                "human" to linkedMapOf(
+                    "gold" to 1,
+                    "ore" to 0,
+                    "wood" to 23,
+                    "mercury" to 235,
+                    "gem" to 2355,
+                    "crystal" to 11,
+                    "sulfur" to 233
+                ),
+                "computer" to linkedMapOf(
+                    "gold" to 777,
+                    "ore" to 0,
+                    "wood" to 23,
+                    "mercury" to 235,
+                    "gem" to 2355,
+                    "crystal" to 11,
+                    "sulfur" to 233
+                )
+            ));
+
+        difficultyLevel.v shouldBe 5
+        difficultyLevel.human!!.quant[0] shouldBe  1
+        difficultyLevel.computer!!.quant[0] shouldBe 777
+    }
 })
