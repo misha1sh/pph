@@ -109,7 +109,7 @@ class BattleEventTest : StringSpec({
         event.Process()
         engine.melee shouldBe true
         engine.meleePos shouldBe PointInt(0, 1)
-        engine.meleeDir shouldBe 2
+        engine.meleeDir shouldBe 2.toUShort()
     }
 
 })

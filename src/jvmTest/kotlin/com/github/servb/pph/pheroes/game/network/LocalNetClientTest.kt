@@ -25,6 +25,7 @@ class LocalNetClientTest : StringSpec({
             client2.writeMsg(ServerInitMsg("1.0"))
 
             client2.readMsgT<ClientInitMsg>().action shouldBe "start_game"
+            delay(10.milliseconds)
             client.connected() shouldBe true
 
             client2.writeMsg(ServerStartGame(Unit))
@@ -67,6 +68,7 @@ class LocalNetClientTest : StringSpec({
             client2.writeMsg(ServerInitMsg("1.0"))
 
             client2.readMsgT<ClientInitMsg>().action shouldBe "start_game"
+            delay(10.milliseconds)
             client.connected() shouldBe true
 
             client.close()

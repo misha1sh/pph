@@ -24,8 +24,12 @@ class EventsFabricTest : StringSpec({
                 penalty = null
         );
 
-        val expected = iBattleView.iMeleeEntry(IPointInt.invoke(1, 2), UShort.MAX_VALUE)
-        entry shouldBe expected
+        (entry is iBattleView.iMeleeEntry) shouldBe true
+
+        val melee = entry as iBattleView.iMeleeEntry
+
+        melee.m_pos shouldBe IPointInt.invoke(1, 2)
+        melee.dir shouldBe UShort.MAX_VALUE
     }
 
     "createShootEntry" {
@@ -41,8 +45,11 @@ class EventsFabricTest : StringSpec({
                 penalty = 10
         );
 
-        val expected = iBattleView.iShootEntry(IPointInt.invoke(1, 2), 10)
-        entry shouldBe expected
+        (entry is iBattleView.iShootEntry) shouldBe true
+
+        val shoot = entry as iBattleView.iShootEntry
+        shoot.m_pos shouldBe IPointInt.invoke(1, 2)
+        shoot.m_penalty shouldBe 10
     }
 
     "createMoveEntry" {
@@ -58,8 +65,11 @@ class EventsFabricTest : StringSpec({
                 penalty = null
         );
 
-        val expected = iBattleView.iMoveEntry(IPointInt.invoke(1, 2), iBattleGroup.ORIENT.Right)
-        entry shouldBe expected
+        (entry is iBattleView.iMoveEntry) shouldBe true
+
+        val move = entry as iBattleView.iMoveEntry
+        move.m_pos shouldBe IPointInt.invoke(1, 2)
+        move.orient shouldBe iBattleGroup.ORIENT.Right
     }
 
 })
