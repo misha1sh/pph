@@ -450,7 +450,7 @@ class iTurnSeq {
     }
 }
 
-class iBattleEngine {
+open class iBattleEngine {
 
     private val m_bFakeMode: Boolean
     private var m_bAutoBattle: Boolean
@@ -691,15 +691,15 @@ else if ( (bState & 2) == 0 ) return BR_DEFENDER_WIN;
 
 //    fun CastSpell(pSpell: iCombatSpell, pos: IPointInt, pSpellTarget: iBattleGroup)  // todo
 
-    fun Move(pos: IPointInt, orient: iBattleGroup.ORIENT) {
+    open fun Move(pos: IPointInt, orient: iBattleGroup.ORIENT) {
         TODO()
     }
 
-    fun Melee(pos: IPointInt, mdir: UShort) {
+    open fun Melee(pos: IPointInt, mdir: UShort) {
         TODO()
     }
 
-    fun Shot(pos: IPointInt, penalty: Int) {
+    open fun Shot(pos: IPointInt, penalty: Int) {
         val pCurCreatGroup = m_turnSeq.CurUnit()
         if (pCurCreatGroup is iBattleUnit_CreatGroup) {
             val pCurGroup = pCurCreatGroup.GetCreatGroup()
